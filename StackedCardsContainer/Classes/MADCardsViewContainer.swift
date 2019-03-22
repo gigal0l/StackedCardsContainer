@@ -27,13 +27,13 @@ public class MADCardsViewContainer: UIView {
         static let numberOfVisibleCards: Int = 3
     }
     
-    weak var dataSource: MADCardViewDataSource? {
+    public weak var dataSource: MADCardViewDataSource? {
         didSet {
             reloadData()
         }
     }
     
-    weak var delegate: MADCardViewDelegate?
+    public weak var delegate: MADCardViewDelegate?
     
     private var cardsViews = [MADCardView]()
     private var visibleCardsViews: [MADCardView] {

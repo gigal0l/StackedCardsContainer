@@ -13,14 +13,14 @@ public class MADCardView: MADView {
     var customView: UIView!
     var color: UIColor!
 
-    init(frame: CGRect, color: UIColor, customView: UIView) {
+    public init(frame: CGRect, color: UIColor, customView: UIView) {
         self.color = color
         self.customView = customView
         super.init(frame: frame)
         setUp()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setUp()
     }

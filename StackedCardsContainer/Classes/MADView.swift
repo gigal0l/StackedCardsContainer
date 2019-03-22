@@ -31,19 +31,19 @@ public class MADView: UIView {
         static var cardViewResetAnimationDuration: TimeInterval = 0.2
     }
     
-    weak var delegate: MADViewDelegate?
+    public weak var delegate: MADViewDelegate?
     
     // MARK: - Gesture Recognizer
     private var panGestureRecognizer: UIPanGestureRecognizer?
     private var panGestureTranslation: CGPoint = .zero
     private var tapGestureRecognizer: UITapGestureRecognizer?
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupGestureRecognizers()
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setupGestureRecognizers()
     }
