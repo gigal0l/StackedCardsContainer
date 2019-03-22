@@ -1,0 +1,16 @@
+PODS:
+  - StackedCardsContainer (0.1.0)
+
+DEPENDENCIES:
+  - StackedCardsContainer (from `../`)
+
+EXTERNAL SOURCES:
+  StackedCardsContainer:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  StackedCardsContainer: eaad82a1ffe5e04b19abe36871d4c17cde53ab6e
+
+PODFILE CHECKSUM: 206427ea05660b199945912dfccea11891bb6385
+
+COCOAPODS: 1.5.3

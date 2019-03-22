@@ -1,0 +1,6 @@
+framework module StackedCardsContainer {
+  umbrella header "StackedCardsContainer-umbrella.h"
+
+  export *
+  module * { export * }
+}

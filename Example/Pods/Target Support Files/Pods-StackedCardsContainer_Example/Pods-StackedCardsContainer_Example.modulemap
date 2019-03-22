@@ -1,0 +1,6 @@
+framework module Pods_StackedCardsContainer_Example {
+  umbrella header "Pods-StackedCardsContainer_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
