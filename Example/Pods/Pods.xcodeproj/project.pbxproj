@@ -16,7 +16,6 @@
 		5C60433C48D6A1BA11576D6F419C49D6 /* Pods-StackedCardsContainer_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7029F6DDA91D6FCC7F9670EE5B3B12A6 /* Pods-StackedCardsContainer_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B0BC3A1EE6075237927DE2F30AE02AC6 /* Pods-StackedCardsContainer_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 72E0C741D7886BBCE417144FAD2DD8C2 /* Pods-StackedCardsContainer_Example-dummy.m */; };
 		C90CFBEAA9EA9BF68D1C244CB657A100 /* StackedCardsContainer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B85060671B56111AF3815B0888D05EE6 /* StackedCardsContainer-dummy.m */; };
-		CD1FE6F9DBBEF25943605CFE73378496 /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DFD422A4859460F77FB87C1BD2B530 /* ReplaceMe.swift */; };
 		D8C87C0C22450B84002B5697 /* MADView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C87C0622450B84002B5697 /* MADView.swift */; };
 		D8C87C0D22450B84002B5697 /* SwipeDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C87C0722450B84002B5697 /* SwipeDirection.swift */; };
 		D8C87C0E22450B84002B5697 /* MADCardsViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C87C0822450B84002B5697 /* MADCardsViewContainer.swift */; };
@@ -45,7 +44,6 @@
 /* Begin PBXFileReference section */
 		036D29E7C3F0F95B0F3409FAAEEAB52D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		08207EBF61564EDAB3DCE17FF2D16967 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		09DFD422A4859460F77FB87C1BD2B530 /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReplaceMe.swift; path = StackedCardsContainer/Classes/ReplaceMe.swift; sourceTree = "<group>"; };
 		09E5E961C3E77B9E38A4796DF652B98E /* StackedCardsContainer.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = StackedCardsContainer.xcconfig; sourceTree = "<group>"; };
 		1D09CE63136819654EB274DEB6785F4C /* Pods-StackedCardsContainer_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-StackedCardsContainer_Example.modulemap"; sourceTree = "<group>"; };
 		2131239959A1194E34327E9C04BA0CBA /* Pods-StackedCardsContainer_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-StackedCardsContainer_Example-frameworks.sh"; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 				D8C87C0622450B84002B5697 /* MADView.swift */,
 				D8C87C0722450B84002B5697 /* SwipeDirection.swift */,
 				D8C87C0B22450B84002B5697 /* UIView + Additions.swift */,
-				09DFD422A4859460F77FB87C1BD2B530 /* ReplaceMe.swift */,
 				E139A6979A8D3188984AA5AFBE8E8B53 /* Pod */,
 				2B8895B466786056BCC618149986D5BF /* Support Files */,
 			);
@@ -415,7 +412,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD1FE6F9DBBEF25943605CFE73378496 /* ReplaceMe.swift in Sources */,
 				C90CFBEAA9EA9BF68D1C244CB657A100 /* StackedCardsContainer-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
