@@ -8,13 +8,13 @@
 
 import UIKit
 
-open protocol MADCardViewDelegate: class {
+public protocol MADCardViewDelegate: class {
     func didSelect(card: MADCardView, atIndex index: Int)
     func didBeginSwipe(card: MADCardView, index: Int)
     func didEndSwipe(card: MADCardView, index: Int)
 }
 
-open protocol MADCardViewDataSource: class {
+public protocol MADCardViewDataSource: class {
     func numberOfCards() -> Int
     func card(forItemAtIndex index: Int) -> MADCardView
     func viewForEmptyCards() -> UIView?

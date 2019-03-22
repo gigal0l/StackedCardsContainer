@@ -9,7 +9,7 @@
 import UIKit
 import pop
 
-open protocol MADViewDelegate: class {
+public protocol MADViewDelegate: class {
     func didTap(view: MADView)
     func didBeginSwipe(onView view: MADView)
     func didEndSwipe(onView view: MADView)
