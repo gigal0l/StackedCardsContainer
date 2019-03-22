@@ -9,15 +9,15 @@
 import UIKit
 
 public protocol MADCardViewDelegate: class {
-    func didSelect(card: MADCardView, atIndex index: Int)
-    func didBeginSwipe(card: MADCardView, index: Int)
-    func didEndSwipe(card: MADCardView, index: Int)
+    public func didSelect(card: MADCardView, atIndex index: Int)
+    public func didBeginSwipe(card: MADCardView, index: Int)
+    public func didEndSwipe(card: MADCardView, index: Int)
 }
 
 public protocol MADCardViewDataSource: class {
-    func numberOfCards() -> Int
-    func card(forItemAtIndex index: Int) -> MADCardView
-    func viewForEmptyCards() -> UIView?
+    public func numberOfCards() -> Int
+    public func card(forItemAtIndex index: Int) -> MADCardView
+    public func viewForEmptyCards() -> UIView?
 }
 
 public class MADCardsViewContainer: UIView {
