@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'StackedCardsContainer_Example' do
+  pod 'StackedCardsContainer', :path => '../'
+
+  target 'StackedCardsContainer_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
