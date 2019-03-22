@@ -27,3 +27,4 @@ vlz1996@mail.ru, andrew@wearemad.ru
 ## License
 
 StackedCardsContainer is available under the MIT license. See the LICENSE file for more info.
+# StackedCardsContainer
