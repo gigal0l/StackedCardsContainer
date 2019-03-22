@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class MADCardView: MADView {
+public final class MADCardView: MADView {
     
     var customView: UIView!
     var color: UIColor!

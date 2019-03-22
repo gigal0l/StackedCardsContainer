@@ -20,7 +20,7 @@ protocol MADCardViewDataSource: class {
     func viewForEmptyCards() -> UIView?
 }
 
-open class MADCardsViewContainer: UIView {
+public final class MADCardsViewContainer: UIView {
     fileprivate struct Constants {
         static let horizontalInset: CGFloat = 12.0
         static let verticalInset: CGFloat = 12.0
