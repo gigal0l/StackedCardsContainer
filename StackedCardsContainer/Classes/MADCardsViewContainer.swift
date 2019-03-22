@@ -102,21 +102,21 @@ public class MADCardsViewContainer: UIView {
 }
 
 extension MADCardsViewContainer: MADViewDelegate {
-    func didTap(view: MADView) {
+    public func didTap(view: MADView) {
         if let cardView = view as? MADCardView,
             let index = cardsViews.index(of: cardView) {
             delegate?.didSelect(card: cardView, atIndex: index)
         }
     }
     
-    func didBeginSwipe(onView view: MADView) {
+    public func didBeginSwipe(onView view: MADView) {
         if let cardView = view as? MADCardView,
             let index = cardsViews.index(of: cardView) {
             delegate?.didBeginSwipe(card: cardView, index: index)
         }
     }
     
-    func didEndSwipe(onView view: MADView) {
+    public func didEndSwipe(onView view: MADView) {
         if let cardView = view as? MADCardView,
             let index = cardsViews.index(of: cardView) {
             delegate?.didEndSwipe(card: cardView, index: index)
