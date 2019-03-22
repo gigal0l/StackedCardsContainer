@@ -10,9 +10,9 @@ import UIKit
 import pop
 
 public protocol MADViewDelegate: class {
-    public func didTap(view: MADView)
-    public func didBeginSwipe(onView view: MADView)
-    public func didEndSwipe(onView view: MADView)
+    func didTap(view: MADView)
+    func didBeginSwipe(onView view: MADView)
+    func didEndSwipe(onView view: MADView)
 }
 
 public class MADView: UIView {
