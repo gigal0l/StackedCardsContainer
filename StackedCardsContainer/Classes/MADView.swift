@@ -15,7 +15,7 @@ protocol MADViewDelegate: class {
     func didEndSwipe(onView view: MADView)
 }
 
-public final class MADView: UIView {
+public class MADView: UIView {
     
     fileprivate struct Constants {
         // MARK: - Drag Animation Settings
