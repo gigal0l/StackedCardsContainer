@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol MADCardViewDelegate: class {
+open protocol MADCardViewDelegate: class {
     func didSelect(card: MADCardView, atIndex index: Int)
     func didBeginSwipe(card: MADCardView, index: Int)
     func didEndSwipe(card: MADCardView, index: Int)
 }
 
-protocol MADCardViewDataSource: class {
+open protocol MADCardViewDataSource: class {
     func numberOfCards() -> Int
     func card(forItemAtIndex index: Int) -> MADCardView
     func viewForEmptyCards() -> UIView?
@@ -27,7 +27,7 @@ public class MADCardsViewContainer: UIView {
         static let numberOfVisibleCards: Int = 3
     }
     
-    public weak var dataSource: MADCardViewDataSource? {
+    open weak var dataSource: MADCardViewDataSource? {
         didSet {
             reloadData()
         }
@@ -53,7 +53,7 @@ public class MADCardsViewContainer: UIView {
     /// Reloads the data used to layout card views in the
     /// card stack. Removes all existing card views and
     /// calls the dataSource to layout new card views.
-    func reloadData() {
+    open func reloadData() {
         removeAllCardViews()
         guard let dataSource = dataSource else { return }
         

@@ -10,8 +10,8 @@ import UIKit
 
 public class MADCardView: MADView {
     
-    var customView: UIView!
-    var color: UIColor!
+    open var customView: UIView!
+    open var color: UIColor!
 
     public init(frame: CGRect, color: UIColor, customView: UIView) {
         self.color = color
