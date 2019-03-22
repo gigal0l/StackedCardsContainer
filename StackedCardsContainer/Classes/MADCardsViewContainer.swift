@@ -44,7 +44,7 @@ public final class MADCardsViewContainer: UIView {
     fileprivate var cardsViewIndex = 0
     fileprivate var lastCardsView = [MADCardView]()
     
-    override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .clear
         translatesAutoresizingMaskIntoConstraints = false

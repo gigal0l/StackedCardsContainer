@@ -8,7 +8,7 @@
 
 import UIKit
 
-public final class MADCardView: MADView {
+public class MADCardView: MADView {
     
     var customView: UIView!
     var color: UIColor!
@@ -25,7 +25,7 @@ public final class MADCardView: MADView {
         setUp()
     }
     
-    override func draw(_ rect: CGRect) {
+    open override func draw(_ rect: CGRect) {
         let path = UIBezierPath()
         let newWidth = bounds.size.width
         let newHeight = bounds.size.height
