@@ -34,18 +34,16 @@ public class MADView: UIView {
     public weak var delegate: MADViewDelegate?
     
     // MARK: - Gesture Recognizer
-    private var panGestureRecognizer: UIPanGestureRecognizer?
-    private var panGestureTranslation: CGPoint = .zero
-    private var tapGestureRecognizer: UITapGestureRecognizer?
+    public var panGestureRecognizer: UIPanGestureRecognizer?
+    public var panGestureTranslation: CGPoint = .zero
+    public var tapGestureRecognizer: UITapGestureRecognizer?
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupGestureRecognizers()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupGestureRecognizers()
     }
     
     deinit {
@@ -57,7 +55,7 @@ public class MADView: UIView {
         }
     }
     
-    private func setupGestureRecognizers() {
+    public func setupGestureRecognizers() {
         // Pan Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         self.panGestureRecognizer = panGestureRecognizer
@@ -113,7 +111,7 @@ public class MADView: UIView {
         }).direction
     }
     
-    private var dragPercentage: CGFloat {
+    public var dragPercentage: CGFloat {
         guard let dragDirection = dragDirection else { return 0.0 }
         
         let normalizedDragPoint = panGestureTranslation.normalizedDistanceForSize(frame.size)
@@ -134,7 +132,7 @@ public class MADView: UIView {
         }
     }
     
-    private func endedPanAnimation() {
+    public func endedPanAnimation() {
         if let dragDirection = dragDirection, dragPercentage >= Constants.swipePercentageMargin {
             let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
             translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
@@ -147,14 +145,14 @@ public class MADView: UIView {
         }
     }
     
-    private func animationPointForDirection(_ direction: SwipeDirection) -> CGPoint {
+    public func animationPointForDirection(_ direction: SwipeDirection) -> CGPoint {
         let point = direction.point
         let animatePoint = CGPoint(x: point.x * 4, y: point.y * 4)
         let retPoint = animatePoint.screenPointForSize(UIScreen.main.bounds.size)
         return retPoint
     }
     
-    private func resetCardViewPosition() {
+    public func resetCardViewPosition() {
         removeAnimations()
         
         // Reset Translation
@@ -176,13 +174,13 @@ public class MADView: UIView {
         layer.pop_add(resetRotationAnimation, forKey: "resetRotationAnimation")
     }
     
-    private func removeAnimations() {
+    public func removeAnimations() {
         pop_removeAllAnimations()
         layer.pop_removeAllAnimations()
     }
     
     // MARK: - Tap Gesture Recognizer
-    @objc private func tapRecognized(_ recognizer: UITapGestureRecognizer) {
+    @objc public func tapRecognized(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTap(view: self)
     }
 }

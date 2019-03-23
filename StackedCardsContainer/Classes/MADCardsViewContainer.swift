@@ -35,14 +35,12 @@ public class MADCardsViewContainer: UIView {
     
     public weak var delegate: MADCardViewDelegate?
     
-    private var cardsViews = [MADCardView]()
-    private var visibleCardsViews: [MADCardView] {
+    public var cardsViews = [MADCardView]()
+    public var visibleCardsViews: [MADCardView] {
         return subviews as? [MADCardView] ?? []
     }
     
     fileprivate var remainingCards = 0
-    fileprivate var cardsViewIndex = 0
-    fileprivate var lastCardsView = [MADCardView]()
     
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -98,6 +96,9 @@ public class MADCardsViewContainer: UIView {
         
         cardView.frame = cardViewFrame
         cardView.setShadow()
+        if visibleCardsViews.count >= 1 {
+            visibleCardsViews.reversed().first?.setupGestureRecognizers()
+        }
     }
 }
 
