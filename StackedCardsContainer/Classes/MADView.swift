@@ -145,7 +145,7 @@ public class MADView: UIView {
         }
     }
     
-    public func animationPointForDirection(_ direction: SwipeDirection) -> CGPoint {
+    private func animationPointForDirection(_ direction: SwipeDirection) -> CGPoint {
         let point = direction.point
         let animatePoint = CGPoint(x: point.x * 4, y: point.y * 4)
         let retPoint = animatePoint.screenPointForSize(UIScreen.main.bounds.size)
