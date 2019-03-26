@@ -89,6 +89,7 @@ public class MADCardsViewContainer: UIView {
         let verticalInset = CGFloat(index) * Constants.verticalInset
         
         cardViewFrame.size.width -= 2 * horizontalInset
+        cardViewFrame.size.height -= 2 * verticalInset
         cardViewFrame.origin.x += 2 * horizontalInset
         cardViewFrame.origin.y -= verticalInset
         

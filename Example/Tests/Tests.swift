@@ -1,5 +1,4 @@
 import XCTest
-import StackedCardsContainer
 
 class Tests: XCTestCase {
     
