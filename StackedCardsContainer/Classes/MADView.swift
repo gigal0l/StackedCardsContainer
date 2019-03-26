@@ -19,8 +19,6 @@ public class MADView: UIView {
     
     fileprivate struct Constants {
         // MARK: - Drag Animation Settings
-        static var maximumRotation: CGFloat = 1.0
-        static var rotationAngle: CGFloat = CGFloat(Double.pi) / 10.0
         static var animationDirectionY: CGFloat = 1.0
         static var swipePercentageMargin: CGFloat = 0.6
         // MARK: - Card Finalize Swipe Animation
@@ -37,7 +35,7 @@ public class MADView: UIView {
     public var panGestureRecognizer: UIPanGestureRecognizer?
     public var panGestureTranslation: CGPoint = .zero
     public var tapGestureRecognizer: UITapGestureRecognizer?
-
+    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -65,6 +63,7 @@ public class MADView: UIView {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
         self.tapGestureRecognizer = tapGestureRecognizer
         addGestureRecognizer(tapGestureRecognizer)
+        
     }
     
     // MARK: - Pan Gesture Recognizer
@@ -79,77 +78,28 @@ public class MADView: UIView {
             let newPosition = CGPoint(x: bounds.size.width * newAnchorPoint.x, y: bounds.size.height * newAnchorPoint.y)
             layer.anchorPoint = newAnchorPoint
             layer.position = CGPoint(x: layer.position.x - oldPosition.x + newPosition.x, y: layer.position.y - oldPosition.y + newPosition.y)
-            
             layer.rasterizationScale = UIScreen.main.scale
             layer.shouldRasterize = true
             delegate?.didBeginSwipe(onView: self)
         case .changed:
-            let rotationStrength = min(panGestureTranslation.x / frame.width, Constants.maximumRotation)
-            let rotationAngle = Constants.animationDirectionY * Constants.rotationAngle * rotationStrength
-            
             var transform = CATransform3DIdentity
-            transform = CATransform3DRotate(transform, rotationAngle, 0, 0, 1)
             transform = CATransform3DTranslate(transform, panGestureTranslation.x, panGestureTranslation.y, 0)
             layer.transform = transform
         case .ended:
-            endedPanAnimation()
+            if let velocity = panGestureRecognizer?.velocity(in: self), velocity.x < 0 {
+                let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
+                translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
+                translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
+                layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
+                self.delegate?.didEndSwipe(onView: self)
+            } else {
+                resetCardViewPosition()
+            }
             layer.shouldRasterize = false
         default:
             resetCardViewPosition()
             layer.shouldRasterize = false
         }
-    }
-    
-    var dragDirection: SwipeDirection? {
-        let normalizedDragPoint = panGestureTranslation.normalizedDistanceForSize(bounds.size)
-        return SwipeDirection.allDirections.reduce((distance: CGFloat.infinity, direction: nil), { closest, direction -> (CGFloat, SwipeDirection?) in
-            let distance = direction.point.distanceTo(normalizedDragPoint)
-            if distance < closest.distance {
-                return (distance, direction)
-            }
-            return closest
-        }).direction
-    }
-    
-    public var dragPercentage: CGFloat {
-        guard let dragDirection = dragDirection else { return 0.0 }
-        
-        let normalizedDragPoint = panGestureTranslation.normalizedDistanceForSize(frame.size)
-        let swipePoint = normalizedDragPoint.scalarProjectionPointWith(dragDirection.point)
-        
-        let rect = SwipeDirection.boundsRect
-        
-        if !rect.contains(swipePoint) {
-            return 1.0
-        } else {
-            let centerDistance = swipePoint.distanceTo(.zero)
-            let targetLine = (swipePoint, CGPoint.zero)
-            
-            return rect.perimeterLines
-                .flatMap { CGPoint.intersectionBetweenLines(targetLine, line2: $0) }
-                .map { centerDistance / $0.distanceTo(.zero) }
-                .min() ?? 0.0
-        }
-    }
-    
-    public func endedPanAnimation() {
-        if let dragDirection = dragDirection, dragPercentage >= Constants.swipePercentageMargin {
-            let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
-            translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
-            translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
-            translationAnimation?.toValue = NSValue(cgPoint: animationPointForDirection(dragDirection))
-            layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
-            self.delegate?.didEndSwipe(onView: self)
-        } else {
-            resetCardViewPosition()
-        }
-    }
-    
-    private func animationPointForDirection(_ direction: SwipeDirection) -> CGPoint {
-        let point = direction.point
-        let animatePoint = CGPoint(x: point.x * 4, y: point.y * 4)
-        let retPoint = animatePoint.screenPointForSize(UIScreen.main.bounds.size)
-        return retPoint
     }
     
     public func resetCardViewPosition() {

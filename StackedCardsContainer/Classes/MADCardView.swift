@@ -12,10 +12,12 @@ public class MADCardView: MADView {
     
     open var customView: UIView!
     open var color: UIColor!
-
-    public init(frame: CGRect, color: UIColor, customView: UIView) {
+    open var image: UIImage?
+    
+    public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil) {
         self.color = color
         self.customView = customView
+        self.image = image
         super.init(frame: frame)
         setUp()
     }
@@ -42,7 +44,12 @@ public class MADCardView: MADView {
         path.close()
         
         // fill the path
-        color.set()
+        if let image = image {
+            let fill = UIColor(patternImage: image)
+            fill.set()
+        } else {
+            color.set()
+        }
         path.fill()
     }
     

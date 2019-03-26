@@ -1,16 +1,23 @@
 PODS:
-  - StackedCardsContainer (0.1.0)
+  - pop (1.0.12)
+  - StackedCardsContainer (1.1.5):
+    - pop
 
 DEPENDENCIES:
   - StackedCardsContainer (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - pop
 
 EXTERNAL SOURCES:
   StackedCardsContainer:
     :path: "../"
 
 SPEC CHECKSUMS:
-  StackedCardsContainer: eaad82a1ffe5e04b19abe36871d4c17cde53ab6e
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
+  StackedCardsContainer: 8aacb6d8fa6a737cd0b54b3edcc324fa76734aa2
 
-PODFILE CHECKSUM: 206427ea05660b199945912dfccea11891bb6385
+PODFILE CHECKSUM: dc716598f89b2e3191ec920964fc5289057b9c6e
 
 COCOAPODS: 1.5.3

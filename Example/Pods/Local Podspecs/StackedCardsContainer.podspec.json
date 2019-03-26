@@ -1,22 +1,27 @@
 {
   "name": "StackedCardsContainer",
-  "version": "0.1.0",
-  "summary": "A short description of StackedCardsContainer.",
+  "version": "1.1.5",
+  "summary": "StackedCardsContainer",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/vlz1996@mail.ru/StackedCardsContainer",
+  "homepage": "https://github.com/AndrewZub/StackedCardsContainer",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "vlz1996@mail.ru": "andrew@wearemad.ru"
+    "AndrewZub": "andrew@wearemad.ru"
   },
   "source": {
-    "git": "https://github.com/vlz1996@mail.ru/StackedCardsContainer.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/AndrewZub/StackedCardsContainer.git",
+    "tag": "1.1.5"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "9.0"
   },
-  "source_files": "StackedCardsContainer/Classes/**/*"
+  "source_files": "StackedCardsContainer/Classes/**/*",
+  "dependencies": {
+    "pop": [
+
+    ]
+  }
 }

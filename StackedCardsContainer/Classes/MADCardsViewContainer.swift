@@ -41,6 +41,8 @@ public class MADCardsViewContainer: UIView {
     }
     
     fileprivate var remainingCards = 0
+    var newIndex = 0
+    public var offset: CGPoint = CGPoint(x: 20, y: 30)
     
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -60,10 +62,6 @@ public class MADCardsViewContainer: UIView {
         
         for index in 0..<min(numberOfCards, Constants.numberOfVisibleCards) {
             addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
-        }
-        if let emptyView = dataSource.viewForEmptyCards() {
-            addSubview(emptyView)
-            addEdgeConstrainedSubView(view: emptyView)
         }
         setNeedsLayout()
     }
@@ -85,7 +83,7 @@ public class MADCardsViewContainer: UIView {
     private func setFrame(forCardView cardView: MADCardView, atIndex index: Int, isEndSwipe: Bool = false) {
         let newWidth = bounds.size.width * 0.8
         let newHeight = bounds.size.height * 0.8
-        let newBounds = CGRect(x: 20, y: 30, width: newWidth, height: newHeight)
+        let newBounds = CGRect(x: offset.x, y: offset.y, width: newWidth, height: newHeight)
         var cardViewFrame = newBounds
         let horizontalInset = (CGFloat(index) * Constants.horizontalInset)
         let verticalInset = CGFloat(index) * Constants.verticalInset
@@ -105,37 +103,51 @@ public class MADCardsViewContainer: UIView {
 extension MADCardsViewContainer: MADViewDelegate {
     public func didTap(view: MADView) {
         if let cardView = view as? MADCardView,
+            let dataSource = dataSource,
             let index = cardsViews.index(of: cardView) {
-            delegate?.didSelect(card: cardView, atIndex: index)
+            let newIndex = index  % dataSource.numberOfCards()
+            print("\(newIndex)")
+            delegate?.didSelect(card: cardView, atIndex: newIndex)
         }
     }
     
     public func didBeginSwipe(onView view: MADView) {
         if let cardView = view as? MADCardView,
+            let dataSource = dataSource,
             let index = cardsViews.index(of: cardView) {
-            delegate?.didBeginSwipe(card: cardView, index: index)
+            let newIndex = index  % dataSource.numberOfCards()
+            delegate?.didBeginSwipe(card: cardView, index: newIndex)
         }
     }
     
     public func didEndSwipe(onView view: MADView) {
-        if let cardView = view as? MADCardView,
-            let index = cardsViews.index(of: cardView) {
-            delegate?.didEndSwipe(card: cardView, index: index)
+        guard let dataSource = dataSource, let cardView = view as? MADCardView else { return }
+        if let index = cardsViews.index(of: cardView) {
+            let newIndex = index  % dataSource.numberOfCards()
+            print("\(newIndex)")
+//            var newCardIndex = 0
+//            if index >= dataSource.numberOfCards() {
+//                newCardIndex = index - (cardsViews.count - dataSource.numberOfCards())
+//            }
+//            print("\(index >= dataSource.numberOfCards() ? newCardIndex : index)")
+            delegate?.didEndSwipe(card: cardView, index: newIndex)
         }
-        guard let dataSource = dataSource else { return }
         // Remove swiped card
         view.removeFromSuperview()
+        
         let reversedCards = visibleCardsViews.reversed()
 
-        // Only add a new card if there are cards remaining
-        if remainingCards > 0 {
-            
-            // Calculate new card's index
-            let newIndex = dataSource.numberOfCards() - remainingCards
-
-            // Add new card as Subview
-            addCardView(cardView: dataSource.card(forItemAtIndex: newIndex), atIndex: 2)
+        //for loop
+        if remainingCards == 0 {
+            remainingCards = dataSource.numberOfCards()
         }
+        
+        // Calculate new card's index
+        newIndex = dataSource.numberOfCards() - remainingCards
+
+        // Add new card as Subview
+        addCardView(cardView: remainingCards == 0 ? cardView : dataSource.card(forItemAtIndex: newIndex), atIndex: reversedCards.count <= 1 ? 1 : 2)
+
         // Update all existing card's frames based on new indexes, animate frame change
         // to reveal new card from underneath the stack of existing cards.
         for (cardIndex, cardView) in reversedCards.enumerated() {
