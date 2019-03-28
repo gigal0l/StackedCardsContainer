@@ -8,16 +8,20 @@
 
 import UIKit
 
-public class MADCardView: MADView {
+public class CardView: BaseView {
     
     open var customView: UIView!
     open var color: UIColor!
     open var image: UIImage?
+    open var corners: CornersOfView!
+    open var cornersSize: CornersSizes!
     
-    public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil) {
+    public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: CornersOfView, cornersSize: CornersSizes) {
         self.color = color
         self.customView = customView
         self.image = image
+        self.corners = corners
+        self.cornersSize = cornersSize
         super.init(frame: frame)
         setUp()
     }
@@ -28,20 +32,7 @@ public class MADCardView: MADView {
     }
     
     open override func draw(_ rect: CGRect) {
-        let path = UIBezierPath()
-        let newWidth = bounds.size.width
-        let newHeight = bounds.size.height
-        let newBounds = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
-        path.move(to: CGPoint(x: newBounds.origin.x, y: newBounds.origin.y + 10))
-        path.addArc(withCenter: CGPoint(x: newBounds.origin.x + 10, y: newBounds.origin.y + 10), radius: 10, startAngle: CGFloat.pi/2.0, endAngle: 3.0 * CGFloat.pi/2.0, clockwise: true)
-        path.addLine(to: CGPoint(x: newBounds.origin.x + newWidth - 50, y: newBounds.origin.y))
-        path.addLine(to: CGPoint(x: newBounds.origin.x + newWidth, y: newBounds.origin.y + 50)) // top right corner
-        path.addLine(to: CGPoint(x: newBounds.origin.x + newWidth, y: newBounds.origin.y + newHeight - 50))
-        path.addLine(to: CGPoint(x: newBounds.origin.x + newWidth - 50, y: newBounds.origin.y + newHeight)) // bottom right corner
-        path.addLine(to: CGPoint(x: newBounds.origin.x + 10, y: newBounds.origin.y + newHeight)) //bottom left corner
-        path.addArc(withCenter: CGPoint(x: newBounds.origin.x + 10, y: newBounds.origin.y + newHeight - 10), radius: 10, startAngle: CGFloat.pi/2.0, endAngle: CGFloat.pi, clockwise: true)
-        path.addLine(to: CGPoint(x: newBounds.origin.x, y: newBounds.origin.y + 10))
-        path.close()
+        let path = drawView(by: corners, cornersSizes: cornersSize)
         
         // fill the path
         if let image = image {

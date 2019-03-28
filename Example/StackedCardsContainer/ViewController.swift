@@ -11,7 +11,7 @@ import StackedCardsContainer
 
 class ViewController: UIViewController {
     
-    @IBOutlet var cardsViewContainer: MADCardsViewContainer!
+    @IBOutlet var cardsViewContainer: CardsViewContainer!
     
     let colorArray = [UIColor.red, UIColor.green, UIColor.blue]
     let imageArray: [UIImage] = [UIImage(named: "image1")!, UIImage(named: "image2")!, UIImage(named: "image3")!]
@@ -22,26 +22,35 @@ class ViewController: UIViewController {
         cardsViewContainer.setNeedsLayout()
         cardsViewContainer.layoutIfNeeded()
         cardsViewContainer.dataSource = self
+        
     }
 }
 
-extension ViewController: MADCardViewDataSource {
+extension ViewController: CardViewDataSource {
     func numberOfCards() -> Int {
         return colorArray.count
     }
     
-    func card(forItemAtIndex index: Int) -> MADCardView {
+    func card(forItemAtIndex index: Int) -> CardView {
+        var corners = CornersOfView()
+        corners.topLeft = 0
+        corners.topRight = 1
+        corners.bottomRight = 0
+        corners.bottomLeft = 2
+        var cornersSizes = CornersSizes()
+        cornersSizes.topRightSize = 50
+        cornersSizes.bottomRightSize = 50
+        cornersSizes.bottomLeftSize = 50
+        cornersSizes.topLeftSize = 0
+        cornersSizes.offset = 10
+        cornersSizes.radius = 10
         cardsViewContainer.offset = CGPoint(x: 60, y: 70)
         let color = colorArray[index]
         let image = imageArray[index]
         let view = UIView()
         view.backgroundColor = .clear
-        let cardView = MADCardView(frame: CGRect(x: 0, y: 0, width: cardsViewContainer.bounds.width - 50, height: cardsViewContainer.bounds.height - 10), color: color, customView: view, image: image)
+        let cardView = CardView(frame: CGRect(x: 0, y: 0, width: cardsViewContainer.bounds.width - 50, height: cardsViewContainer.bounds.height - 10), color: color, customView: view, image: image, corners: corners, cornersSize: cornersSizes)
         return cardView
-    }
-    
-    func viewForEmptyCards() -> UIView? {
-        return nil
     }
 }
 

@@ -9,13 +9,13 @@
 import UIKit
 import pop
 
-public protocol MADViewDelegate: class {
-    func didTap(view: MADView)
-    func didBeginSwipe(onView view: MADView)
-    func didEndSwipe(onView view: MADView)
+public protocol BaseViewDelegate: class {
+    func didTap(view: BaseView)
+    func didBeginSwipe(onView view: BaseView)
+    func didEndSwipe(onView view: BaseView)
 }
 
-public class MADView: UIView {
+public class BaseView: UIView {
     
     fileprivate struct Constants {
         // MARK: - Drag Animation Settings
@@ -29,7 +29,7 @@ public class MADView: UIView {
         static var cardViewResetAnimationDuration: TimeInterval = 0.2
     }
     
-    public weak var delegate: MADViewDelegate?
+    public weak var delegate: BaseViewDelegate?
     
     // MARK: - Gesture Recognizer
     public var panGestureRecognizer: UIPanGestureRecognizer?

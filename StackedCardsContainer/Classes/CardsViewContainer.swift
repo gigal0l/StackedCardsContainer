@@ -1,5 +1,5 @@
 //
-//  MADCardsViewContainer.swift
+//  CardsViewContainer.swift
 //  CardsView
 //
 //  Created by Андрей Зубехин on 18/03/2019.
@@ -8,41 +8,38 @@
 
 import UIKit
 
-public protocol MADCardViewDelegate: class {
-    func didSelect(card: MADCardView, atIndex index: Int)
-    func didBeginSwipe(card: MADCardView, index: Int)
-    func didEndSwipe(card: MADCardView, index: Int)
+public protocol CardViewDelegate: class {
+    func didSelect(card: CardView, atIndex index: Int)
+    func didBeginSwipe(card: CardView, index: Int)
+    func didEndSwipe(card: CardView, index: Int)
 }
 
-public protocol MADCardViewDataSource: class {
+public protocol CardViewDataSource: class {
     func numberOfCards() -> Int
-    func card(forItemAtIndex index: Int) -> MADCardView
-    func viewForEmptyCards() -> UIView?
+    func card(forItemAtIndex index: Int) -> CardView
 }
 
-public class MADCardsViewContainer: UIView {
-    fileprivate struct Constants {
-        static let horizontalInset: CGFloat = 12.0
-        static let verticalInset: CGFloat = 12.0
-        static let numberOfVisibleCards: Int = 3
-    }
+public class CardsViewContainer: UIView {
     
-    open weak var dataSource: MADCardViewDataSource? {
+    open weak var dataSource: CardViewDataSource? {
         didSet {
             reloadData()
         }
     }
     
-    public weak var delegate: MADCardViewDelegate?
-    
-    public var cardsViews = [MADCardView]()
-    public var visibleCardsViews: [MADCardView] {
-        return subviews as? [MADCardView] ?? []
+    public weak var delegate: CardViewDelegate?
+
+    public var offset: CGPoint = CGPoint(x: 20, y: 30)
+    public let horizontalInset: CGFloat = 12.0
+    public let verticalInset: CGFloat = 12.0
+    public let numberOfVisibleCards: Int = 3
+    public var cardsViews = [CardView]()
+    public var visibleCardsViews: [CardView] {
+        return subviews as? [CardView] ?? []
     }
     
     fileprivate var remainingCards = 0
-    var newIndex = 0
-    public var offset: CGPoint = CGPoint(x: 20, y: 30)
+    fileprivate var newIndex = 0
     
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -60,13 +57,13 @@ public class MADCardsViewContainer: UIView {
         let numberOfCards = dataSource.numberOfCards()
         remainingCards = numberOfCards
         
-        for index in 0..<min(numberOfCards, Constants.numberOfVisibleCards) {
+        for index in 0..<min(numberOfCards, numberOfVisibleCards) {
             addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
         }
         setNeedsLayout()
     }
     
-    private func addCardView(cardView: MADCardView, atIndex index: Int) {
+    private func addCardView(cardView: CardView, atIndex index: Int) {
         cardView.delegate = self
         setFrame(forCardView: cardView, atIndex: index)
         layoutIfNeeded()
@@ -80,13 +77,13 @@ public class MADCardsViewContainer: UIView {
         cardsViews = []
     }
     
-    private func setFrame(forCardView cardView: MADCardView, atIndex index: Int, isEndSwipe: Bool = false) {
+    private func setFrame(forCardView cardView: CardView, atIndex index: Int, isEndSwipe: Bool = false) {
         let newWidth = bounds.size.width * 0.8
         let newHeight = bounds.size.height * 0.8
         let newBounds = CGRect(x: offset.x, y: offset.y, width: newWidth, height: newHeight)
         var cardViewFrame = newBounds
-        let horizontalInset = (CGFloat(index) * Constants.horizontalInset)
-        let verticalInset = CGFloat(index) * Constants.verticalInset
+        let horizontalInset = CGFloat(index) * self.horizontalInset
+        let verticalInset = CGFloat(index) * self.verticalInset
         
         cardViewFrame.size.width -= 2 * horizontalInset
         cardViewFrame.size.height -= 2 * verticalInset
@@ -95,44 +92,39 @@ public class MADCardsViewContainer: UIView {
         
         cardView.frame = cardViewFrame
         cardView.setShadow()
+        
         if visibleCardsViews.count >= 1 {
             visibleCardsViews.reversed().first?.setupGestureRecognizers()
         }
     }
 }
 
-extension MADCardsViewContainer: MADViewDelegate {
-    public func didTap(view: MADView) {
-        if let cardView = view as? MADCardView,
+extension CardsViewContainer: BaseViewDelegate {
+    public func didTap(view: BaseView) {
+        if let cardView = view as? CardView,
             let dataSource = dataSource,
             let index = cardsViews.index(of: cardView) {
-            let newIndex = index  % dataSource.numberOfCards()
-            print("\(newIndex)")
+            let newIndex = index % dataSource.numberOfCards()
             delegate?.didSelect(card: cardView, atIndex: newIndex)
         }
     }
     
-    public func didBeginSwipe(onView view: MADView) {
-        if let cardView = view as? MADCardView,
+    public func didBeginSwipe(onView view: BaseView) {
+        if let cardView = view as? CardView,
             let dataSource = dataSource,
             let index = cardsViews.index(of: cardView) {
-            let newIndex = index  % dataSource.numberOfCards()
+            let newIndex = index % dataSource.numberOfCards()
             delegate?.didBeginSwipe(card: cardView, index: newIndex)
         }
     }
     
-    public func didEndSwipe(onView view: MADView) {
-        guard let dataSource = dataSource, let cardView = view as? MADCardView else { return }
+    public func didEndSwipe(onView view: BaseView) {
+        guard let dataSource = dataSource, let cardView = view as? CardView else { return }
         if let index = cardsViews.index(of: cardView) {
-            let newIndex = index  % dataSource.numberOfCards()
-            print("\(newIndex)")
-//            var newCardIndex = 0
-//            if index >= dataSource.numberOfCards() {
-//                newCardIndex = index - (cardsViews.count - dataSource.numberOfCards())
-//            }
-//            print("\(index >= dataSource.numberOfCards() ? newCardIndex : index)")
+            let newIndex = index % dataSource.numberOfCards()
             delegate?.didEndSwipe(card: cardView, index: newIndex)
         }
+        
         // Remove swiped card
         view.removeFromSuperview()
         
