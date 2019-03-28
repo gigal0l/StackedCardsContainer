@@ -63,7 +63,6 @@ public class BaseView: UIView {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
         self.tapGestureRecognizer = tapGestureRecognizer
         addGestureRecognizer(tapGestureRecognizer)
-        
     }
     
     // MARK: - Pan Gesture Recognizer
