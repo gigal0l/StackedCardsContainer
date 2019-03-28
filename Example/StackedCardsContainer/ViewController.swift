@@ -35,16 +35,16 @@ extension ViewController: CardViewDataSource {
     }
     
     func card(forItemAtIndex index: Int) -> CardView {
-        var corners = CornersOfView()
+        var corners = Corners()
         corners.topLeft = 2
         corners.topRight = 1
         corners.bottomRight = 0
         corners.bottomLeft = 2
         var cornersSizes = CornersSizes()
-        cornersSizes.topRightSize = 70
-        cornersSizes.bottomRightSize = 30
-        cornersSizes.bottomLeftSize = 20
-        cornersSizes.topLeftSize = 70
+        cornersSizes.topRightCutOff = 70
+        cornersSizes.bottomRightCutOff = 30
+        cornersSizes.bottomLeftCutOff = 20
+        cornersSizes.topLeftCutOff = 70
         cornersSizes.offset = 10
         cornersSizes.radius = 10
         cardsViewContainer.offset = CGPoint(x: 60, y: 70)

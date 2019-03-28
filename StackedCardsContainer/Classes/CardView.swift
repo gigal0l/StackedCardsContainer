@@ -14,10 +14,10 @@ public class CardView: BaseView {
     open var color: UIColor!
     open var image: UIImage?
     //help
-    open var corners: CornersOfView!
+    open var corners: Corners!
     open var cornersSize: CornersSizes!
     
-    public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: CornersOfView, cornersSize: CornersSizes) {
+    public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: Corners, cornersSize: CornersSizes) {
         self.color = color
         self.customView = customView
         self.image = image

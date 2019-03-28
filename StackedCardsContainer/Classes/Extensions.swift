@@ -10,11 +10,7 @@ import Foundation
 
 extension UIView {
 
-    public enum TypeOfCorner: Int {
-        case straight = 0
-        case rounded = 1
-        case cutOff = 2
-    }
+    
     
     final func pin(to view: UIView, leftOffset: CGFloat = 0, rightOffset: CGFloat = 0, topOffset: CGFloat = 0, bottomOffset: CGFloat = 0) {
         translatesAutoresizingMaskIntoConstraints = false
@@ -33,49 +29,49 @@ extension UIView {
         layer.shadowRadius = 6
     }
     
-    func drawView(by corners: CornersOfView, cornersSizes: CornersSizes) -> UIBezierPath {
+    func drawView(by corners: Corners, cornersSizes: CornersSizes) -> UIBezierPath {
         let path = UIBezierPath()
         
-        if corners.topLeft == TypeOfCorner.straight.rawValue {
+        if corners.topLeft == CornerType.straight {
             path.move(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y))
-        } else if corners.topLeft == TypeOfCorner.rounded.rawValue {
+        } else if corners.topLeft == CornerType.rounded {
             path.move(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + cornersSizes.offset))
             path.addArc(withCenter: CGPoint(x: bounds.origin.x + cornersSizes.offset, y: bounds.origin.y + cornersSizes.offset), radius: cornersSizes.radius, startAngle: CGFloat.pi/2.0, endAngle: 3.0 * CGFloat.pi/2.0, clockwise: true)
-        } else if corners.topLeft == TypeOfCorner.cutOff.rawValue {
-            path.move(to: CGPoint(x: bounds.origin.x + cornersSizes.topLeftSize, y: bounds.origin.y)) // topLeft
+        } else if corners.topLeft == CornerType.cutOff {
+            path.move(to: CGPoint(x: bounds.origin.x + cornersSizes.topLeftCutOff, y: bounds.origin.y)) // topLeft
         }
         
-        if corners.topRight == TypeOfCorner.straight.rawValue {
+        if corners.topRight == CornerType.straight {
             path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y))
-        } else if corners.topRight == TypeOfCorner.rounded.rawValue {
+        } else if corners.topRight == CornerType.rounded {
             path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.offset, y: bounds.origin.y))
             path.addArc(withCenter: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.offset, y: bounds.origin.y + cornersSizes.offset), radius: cornersSizes.radius, startAngle: 3 * CGFloat.pi/2.0, endAngle: 0, clockwise: true)
-        } else if corners.topRight == TypeOfCorner.cutOff.rawValue {
-            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.topRightSize, y: bounds.origin.y))
-            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y + cornersSizes.topRightSize)) //topRight
+        } else if corners.topRight == CornerType.cutOff {
+            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.topRightCutOff, y: bounds.origin.y))
+            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y + cornersSizes.topRightCutOff)) //topRight
         }
         
-        if corners.bottomRight == TypeOfCorner.straight.rawValue {
+        if corners.bottomRight == CornerType.straight {
             path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y + bounds.height))
-        } else if corners.bottomRight == TypeOfCorner.rounded.rawValue {
+        } else if corners.bottomRight == CornerType.rounded {
             path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y + bounds.height - cornersSizes.offset))
             path.addArc(withCenter: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.offset, y: bounds.origin.y + bounds.height - cornersSizes.offset), radius: cornersSizes.radius, startAngle: 0, endAngle: CGFloat.pi/2.0, clockwise: true)
-        } else if corners.bottomRight == TypeOfCorner.cutOff.rawValue {
-            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y + bounds.height - cornersSizes.bottomRightSize))
-            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.bottomRightSize, y: bounds.origin.y + bounds.height)) // bottomRight
+        } else if corners.bottomRight == CornerType.cutOff {
+            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width, y: bounds.origin.y + bounds.height - cornersSizes.bottomRightCutOff))
+            path.addLine(to: CGPoint(x: bounds.origin.x + bounds.width - cornersSizes.bottomRightCutOff, y: bounds.origin.y + bounds.height)) // bottomRight
         }
         
-        if corners.bottomLeft == TypeOfCorner.straight.rawValue {
+        if corners.bottomLeft == CornerType.straight {
             path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + bounds.height))
             path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y))
-        } else if corners.bottomLeft == TypeOfCorner.rounded.rawValue {
+        } else if corners.bottomLeft == CornerType.rounded {
             path.addLine(to: CGPoint(x: bounds.origin.x + cornersSizes.offset, y: bounds.origin.y + bounds.height)) //bottom left corner
             path.addArc(withCenter: CGPoint(x: bounds.origin.x + cornersSizes.offset, y: bounds.origin.y + bounds.height - cornersSizes.offset), radius: cornersSizes.radius, startAngle: CGFloat.pi/2.0, endAngle: CGFloat.pi, clockwise: true)
             path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + cornersSizes.offset))
-        } else if corners.bottomLeft == TypeOfCorner.cutOff.rawValue {
-            path.addLine(to: CGPoint(x: bounds.origin.x + cornersSizes.bottomLeftSize, y: bounds.origin.y + bounds.height))
-            path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + bounds.height - cornersSizes.bottomLeftSize)) //bottomLeft
-            path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + cornersSizes.topLeftSize)) //connect bottomTop left
+        } else if corners.bottomLeft == CornerType.cutOff {
+            path.addLine(to: CGPoint(x: bounds.origin.x + cornersSizes.bottomLeftCutOff, y: bounds.origin.y + bounds.height))
+            path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + bounds.height - cornersSizes.bottomLeftCutOff)) //bottomLeft
+            path.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y + cornersSizes.topLeftCutOff)) //connect bottomTop left
         }
         
         path.close()
