@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet var cardsViewContainer: CardsViewContainer!
     
     let colorArray = [UIColor.red, UIColor.green, UIColor.blue]
-    let imageArray: [UIImage] = [UIImage(named: "image1")!, UIImage(named: "image2")!, UIImage(named: "image3")!]
+    var imageArray: [UIImage] = [UIImage(named: "image1")!, UIImage(named: "image2")!, UIImage(named: "image3")!]
     //, UIColor.black, UIColor.orange, UIColor.gray, UIColor.brown, UIColor.darkGray
     
     override func viewDidLoad() {
@@ -22,7 +22,10 @@ class ViewController: UIViewController {
         cardsViewContainer.setNeedsLayout()
         cardsViewContainer.layoutIfNeeded()
         cardsViewContainer.dataSource = self
-        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) {
+            self.imageArray.reverse()
+            self.cardsViewContainer.reloadData()
+        }
     }
 }
 

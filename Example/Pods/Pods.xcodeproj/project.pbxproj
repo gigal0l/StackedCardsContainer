@@ -307,9 +307,9 @@
 				5D2BFE44A1F5B2540B6FD04D38A756A9 /* CardView.swift */,
 				BE77EC96EDB9C8EAF60B2C44903C4356 /* BaseView.swift */,
 				19919B07FC8F31A94C435CA97FF88129 /* Extensions.swift */,
+				D88A4F6E224CC48600F3B55A /* Corners.swift */,
 				367E68B453838E419B0EBBB77F390B60 /* Pod */,
 				A6DF92B4D8FBAEC55AA94632CD48A1E7 /* Support Files */,
-				D88A4F6E224CC48600F3B55A /* Corners.swift */,
 			);
 			name = StackedCardsContainer;
 			path = ../..;

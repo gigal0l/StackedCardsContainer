@@ -13,7 +13,7 @@ This struct has properties of each corner which declarate by type.
  * 1 - rounded corner
  * 2 - cutOff corner
 */
-public struct CornersOfView {
+public class CornersOfView {
     public var topLeft: Int = 0
     public var topRight: Int = 0
     public var bottomLeft: Int = 0
@@ -24,7 +24,7 @@ public struct CornersOfView {
 /**
  This struct has properties of corner's size
  */
-public struct CornersSizes {
+public class CornersSizes {
     public var topLeftSize: CGFloat = 0.0
     public var topRightSize: CGFloat = 0.0
     public var bottomLeftSize: CGFloat = 0.0

@@ -33,6 +33,7 @@ public class CardsViewContainer: UIView {
     public let horizontalInset: CGFloat = 12.0
     public let verticalInset: CGFloat = 12.0
     public let numberOfVisibleCards: Int = 3
+    
     public var cardsViews = [CardView]()
     public var visibleCardsViews: [CardView] {
         return subviews as? [CardView] ?? []
