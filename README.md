@@ -20,10 +20,10 @@ pod 'StackedCardsContainer'
 ## Getting start guide
 - For first, inherit from class 'CardsViewContainer':
 ```swift
-    @IBOutlet var cardsViewContainer: CardsViewContainer!
+    class CardsContainer: CardsViewContainer! 
+    { ... }
 ```
-or
-Create UIView in storyboard and set custom view 'CardsViewContainer'
+or create UIView in storyboard and set custom view 'CardsViewContainer'
 
 ![StackedCardsContainer customClassScreenShot](https://snag.gy/LH8cR4.jpg)
 
