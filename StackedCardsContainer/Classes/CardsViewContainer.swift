@@ -28,7 +28,7 @@ open class CardsViewContainer: UIView {
         }
     }
     
-    weak var delegate: CardViewDelegate?
+    open weak var delegate: CardViewDelegate?
 
     @objc open var offset: CGPoint = CGPoint(x: 20, y: 30)
     @objc public let horizontalInset: CGFloat = 12.0
