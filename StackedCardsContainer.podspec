@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'StackedCardsContainer'
-  s.version          = '1.3.0'
+  s.version          = '1.3.1'
   s.summary          = 'StackedCardsContainer'
 
 # This description is used to generate tags and improve search results.
@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'StackedCardsContainer/Classes/**/*'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   # s.resource_bundles = {
   #   'StackedCardsContainer' => ['StackedCardsContainer/Assets/*.png']
   # }
