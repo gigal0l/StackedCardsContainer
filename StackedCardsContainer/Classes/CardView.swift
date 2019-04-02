@@ -16,13 +16,14 @@ import UIKit
  * 2 - cutOff corner
  */
 @objcMembers
-open class Corners {
+open class Corners: NSObject {
     open var topLeft = CornerType.straight
     open var topRight = CornerType.straight
     open var bottomLeft = CornerType.straight
     open var bottomRight = CornerType.straight
     
-    public init(topLeft: CornerType, topRight: CornerType, bottomRight: CornerType, bottomLeft: CornerType) {
+    @objc public init(topLeft: CornerType, topRight: CornerType, bottomRight: CornerType, bottomLeft: CornerType) {
+        super.init()
         self.topLeft = topLeft
         self.topRight = topRight
         self.bottomLeft = bottomLeft
@@ -35,7 +36,7 @@ open class Corners {
  This class has properties of cut-off corner's size and properties for acr UIBezierPath
 */
 @objcMembers
-open class CornersSizes {
+open class CornersSizes: NSObject {
     open var topLeftCutOff: CGFloat = 0.0
     open var topRightCutOff: CGFloat = 0.0
     open var bottomLeftCutOff: CGFloat = 0.0
@@ -45,7 +46,8 @@ open class CornersSizes {
     open var offset: CGFloat = 0.0
     open var radius: CGFloat = 0.0
     
-    public init(topLeftCutOff: CGFloat, topRightCutOff: CGFloat, bottomLeftCutOff: CGFloat, bottomRightCutOff: CGFloat, offset: CGFloat, radius: CGFloat) {
+    @objc public init(topLeftCutOff: CGFloat, topRightCutOff: CGFloat, bottomLeftCutOff: CGFloat, bottomRightCutOff: CGFloat, offset: CGFloat, radius: CGFloat) {
+        super.init()
         self.topLeftCutOff = topLeftCutOff
         self.topRightCutOff = topRightCutOff
         self.bottomLeftCutOff = bottomLeftCutOff
@@ -76,7 +78,7 @@ open class CardView: BaseView {
     open var corners: Corners!
     open var cornersSize: CornersSizes!
     
-    public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: Corners, cornersSize: CornersSizes) {
+    @objc public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: Corners, cornersSize: CornersSizes) {
         self.color = color
         self.customView = customView
         self.image = image
