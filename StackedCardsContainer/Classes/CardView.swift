@@ -15,7 +15,8 @@ import UIKit
  * 1 - rounded corner
  * 2 - cutOff corner
  */
-public struct Corners {
+@objcMembers
+open class Corners {
     public var topLeft = CornerType.straight
     public var topRight = CornerType.straight
     public var bottomLeft = CornerType.straight
@@ -33,7 +34,8 @@ public struct Corners {
 /**
  This struct has properties of cut-off corner's size and properties for acr UIBezierPath
 */
-public struct CornersSizes {
+@objcMembers
+open class CornersSizes {
     public var topLeftCutOff: CGFloat = 0.0
     public var topRightCutOff: CGFloat = 0.0
     public var bottomLeftCutOff: CGFloat = 0.0
@@ -57,7 +59,7 @@ public struct CornersSizes {
 /**
  This enum defines type of corner
 */
-public enum CornerType {
+@objc public enum CornerType: Int {
     case straight
     case rounded
     case cutOff
