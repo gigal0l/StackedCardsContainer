@@ -104,7 +104,7 @@ extension CardsViewContainer: BaseViewDelegate {
     public func didTap(view: BaseView) {
         if let cardView = view as? CardView,
             let dataSource = dataSource,
-            let index = cardsViews.index(of: cardView) {
+            let index = cardsViews.firstIndex(of: cardView) {
             let newIndex = index % dataSource.numberOfCards()
             delegate?.didSelect(card: cardView, atIndex: newIndex)
         }
@@ -113,7 +113,7 @@ extension CardsViewContainer: BaseViewDelegate {
     public func didBeginSwipe(onView view: BaseView) {
         if let cardView = view as? CardView,
             let dataSource = dataSource,
-            let index = cardsViews.index(of: cardView) {
+            let index = cardsViews.firstIndex(of: cardView) {
             let newIndex = index % dataSource.numberOfCards()
             delegate?.didBeginSwipe(card: cardView, index: newIndex)
         }
@@ -121,7 +121,7 @@ extension CardsViewContainer: BaseViewDelegate {
     
     public func didEndSwipe(onView view: BaseView) {
         guard let dataSource = dataSource, let cardView = view as? CardView else { return }
-        if let index = cardsViews.index(of: cardView) {
+        if let index = cardsViews.firstIndex(of: cardView) {
             let newIndex = index % dataSource.numberOfCards()
             delegate?.didEndSwipe(card: cardView, index: newIndex)
         }

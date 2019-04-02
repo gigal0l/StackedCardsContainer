@@ -9,6 +9,8 @@
 import UIKit
 import pop
 
+
+
 public protocol BaseViewDelegate: class {
     func didTap(view: BaseView)
     func didBeginSwipe(onView view: BaseView)

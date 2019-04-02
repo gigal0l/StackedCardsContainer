@@ -61,7 +61,6 @@
 		D571DDAF52FA76C0C2314D1F6BE21C36 /* POPAnimatableProperty.mm in Sources */ = {isa = PBXBuildFile; fileRef = D6AD40D95C7E99265D19C1CADF98951F /* POPAnimatableProperty.mm */; };
 		D6EB35751F05D2738098BF42249A96C5 /* TransformationMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FB05E418C1987A80BBE187995545C6E /* TransformationMatrix.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D7015606110543101032AA10F75C0509 /* POPSpringAnimationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F5356AA77260C4E2B7A364B51E7D8DDB /* POPSpringAnimationInternal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		D88A4F6F224CC48600F3B55A /* Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88A4F6E224CC48600F3B55A /* Corners.swift */; };
 		D93CD094B8E4F4C2369161DEC4CA9215 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2BFE44A1F5B2540B6FD04D38A756A9 /* CardView.swift */; };
 		DE0883B2112CE5157884303868E9C641 /* POPSpringAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 99ACE7BAC871F4B900F985CB303CF28B /* POPSpringAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DFCFFDC9C85F1B1CB822EBD301857638 /* POPAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9BF0E48016CF37551BDDC99CDB57D531 /* POPAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,7 +192,6 @@
 		D1625492F4EECFC6606DA7B483574E16 /* UnitBezier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UnitBezier.h; path = pop/WebCore/UnitBezier.h; sourceTree = "<group>"; };
 		D4EE271BCDD8EA2B78C2C76EDD08EED9 /* POPCustomAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = POPCustomAnimation.h; path = pop/POPCustomAnimation.h; sourceTree = "<group>"; };
 		D6AD40D95C7E99265D19C1CADF98951F /* POPAnimatableProperty.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = POPAnimatableProperty.mm; path = pop/POPAnimatableProperty.mm; sourceTree = "<group>"; };
-		D88A4F6E224CC48600F3B55A /* Corners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corners.swift; sourceTree = "<group>"; };
 		E03A5C42BC93219760B5FD530167A013 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0521F4EC09E660F13B57BCAFB301005 /* POPSpringAnimation.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = POPSpringAnimation.mm; path = pop/POPSpringAnimation.mm; sourceTree = "<group>"; };
 		E5B5B55FE266C67AEE0362483FBE7C41 /* POP.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = POP.h; path = pop/POP.h; sourceTree = "<group>"; };
@@ -307,7 +305,6 @@
 				5D2BFE44A1F5B2540B6FD04D38A756A9 /* CardView.swift */,
 				BE77EC96EDB9C8EAF60B2C44903C4356 /* BaseView.swift */,
 				19919B07FC8F31A94C435CA97FF88129 /* Extensions.swift */,
-				D88A4F6E224CC48600F3B55A /* Corners.swift */,
 				367E68B453838E419B0EBBB77F390B60 /* Pod */,
 				A6DF92B4D8FBAEC55AA94632CD48A1E7 /* Support Files */,
 			);
@@ -621,7 +618,7 @@
 				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					08BF761CAC271E369DDD9EA5E5293B90 = {
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 					2501F99A944C7A830AB84FE86763F5A1 = {
 						LastSwiftMigration = 1010;
@@ -633,6 +630,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
@@ -696,7 +694,6 @@
 				D93CD094B8E4F4C2369161DEC4CA9215 /* CardView.swift in Sources */,
 				C7E3E83ABAD7357B76C868893EB44B1F /* BaseView.swift in Sources */,
 				F34971D1876A42B98C90D8D4E71B5842 /* StackedCardsContainer-dummy.m in Sources */,
-				D88A4F6F224CC48600F3B55A /* Corners.swift in Sources */,
 				E17F8FB1C73F6AE5D181ED88A11D64A7 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -981,7 +978,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1014,7 +1011,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

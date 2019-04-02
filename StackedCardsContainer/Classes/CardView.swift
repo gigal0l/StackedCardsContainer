@@ -8,13 +8,14 @@
 
 import UIKit
 
+//MARK: - Support struct Corners
 /**
  This struct has properties of each corner which declarate by type.
  * 0 – straight corner
  * 1 - rounded corner
  * 2 - cutOff corner
  */
-public class Corners {
+public struct Corners {
     public var topLeft = CornerType.straight
     public var topRight = CornerType.straight
     public var bottomLeft = CornerType.straight
@@ -27,10 +28,12 @@ public class Corners {
         self.bottomRight = bottomRight
     }
 }
+
+//MARK: - Support struct CornersSizes
 /**
- This struct has properties of corner's size
- */
-public class CornersSizes {
+ This struct has properties of cut-off corner's size and properties for acr UIBezierPath
+*/
+public struct CornersSizes {
     public var topLeftCutOff: CGFloat = 0.0
     public var topRightCutOff: CGFloat = 0.0
     public var bottomLeftCutOff: CGFloat = 0.0
@@ -50,12 +53,17 @@ public class CornersSizes {
     }
 }
 
+//MARK: - Support Enum CornerType
+/**
+ This enum defines type of corner
+*/
 public enum CornerType {
     case straight
     case rounded
     case cutOff
 }
 
+//MARK: - CardView
 public class CardView: BaseView {
     
     open var customView: UIView!
@@ -147,31 +155,5 @@ public class CardView: BaseView {
         
         path.close()
         return path
-    }
-}
-
-extension UIImage {
-    final func resizeImage(_ size: CGSize) -> UIImage {
-        var scaledImageRect = CGRect.zero
-        
-        let aspectWidth:CGFloat = size.width / self.size.width
-        let aspectHeight:CGFloat = size.height / self.size.height
-        
-        //max - scaleAspectFill | min - scaleAspectFit
-        let aspectRatio:CGFloat = max(aspectWidth, aspectHeight)
-        
-        scaledImageRect.size.width = self.size.width * aspectRatio
-        scaledImageRect.size.height = self.size.height * aspectRatio
-        scaledImageRect.origin.x = (size.width - scaledImageRect.size.width) / 2.0
-        scaledImageRect.origin.y = (size.height - scaledImageRect.size.height) / 2.0
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        
-        self.draw(in: scaledImageRect)
-        
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return scaledImage!
     }
 }

@@ -12,7 +12,7 @@ import StackedCardsContainer
 class ViewController: UIViewController {
     
     @IBOutlet var cardsViewContainer: CardsViewContainer!
-    
+
     let colorArray = [UIColor.red, UIColor.green, UIColor.blue]
     var imageArray: [UIImage] = [UIImage(named: "image1")!, UIImage(named: "image2")!, UIImage(named: "image3")!]
     //, UIColor.black, UIColor.orange, UIColor.gray, UIColor.brown, UIColor.darkGray
@@ -22,10 +22,6 @@ class ViewController: UIViewController {
         cardsViewContainer.setNeedsLayout()
         cardsViewContainer.layoutIfNeeded()
         cardsViewContainer.dataSource = self
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) {
-            self.imageArray.reverse()
-            self.cardsViewContainer.reloadData()
-        }
     }
 }
 
@@ -35,18 +31,8 @@ extension ViewController: CardViewDataSource {
     }
     
     func card(forItemAtIndex index: Int) -> CardView {
-        var corners = Corners()
-        corners.topLeft = 2
-        corners.topRight = 1
-        corners.bottomRight = 0
-        corners.bottomLeft = 2
-        var cornersSizes = CornersSizes()
-        cornersSizes.topRightCutOff = 70
-        cornersSizes.bottomRightCutOff = 30
-        cornersSizes.bottomLeftCutOff = 20
-        cornersSizes.topLeftCutOff = 70
-        cornersSizes.offset = 10
-        cornersSizes.radius = 10
+        let corners = Corners(topLeft: .straight, topRight: .rounded, bottomRight: .straight, bottomLeft: .cutOff)
+        let cornersSizes = CornersSizes(topLeftCutOff: 70, topRightCutOff: 70, bottomLeftCutOff: 20, bottomRightCutOff: 30, offset: 10, radius: 10)
         cardsViewContainer.offset = CGPoint(x: 60, y: 70)
         let color = colorArray[index]
         let image = imageArray[index]
