@@ -8,18 +8,18 @@
 
 import UIKit
 
-public protocol CardViewDelegate: class {
+@objc public protocol CardViewDelegate: class {
     func didSelect(card: CardView, atIndex index: Int)
     func didBeginSwipe(card: CardView, index: Int)
     func didEndSwipe(card: CardView, index: Int)
 }
 
-public protocol CardViewDataSource: class {
+@objc public protocol CardViewDataSource: class {
     func numberOfCards() -> Int
     func card(forItemAtIndex index: Int) -> CardView
 }
 
-public class CardsViewContainer: UIView {
+@objc public class CardsViewContainer: UIView {
     
     open weak var dataSource: CardViewDataSource? {
         didSet {

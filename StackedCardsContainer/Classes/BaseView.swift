@@ -9,15 +9,13 @@
 import UIKit
 import pop
 
-
-
-public protocol BaseViewDelegate: class {
+@objc public protocol BaseViewDelegate: class {
     func didTap(view: BaseView)
     func didBeginSwipe(onView view: BaseView)
     func didEndSwipe(onView view: BaseView)
 }
 
-public class BaseView: UIView {
+@objc public class BaseView: UIView {
     
     fileprivate struct Constants {
         // MARK: - Drag Animation Settings

@@ -64,7 +64,7 @@ public enum CornerType {
 }
 
 //MARK: - CardView
-public class CardView: BaseView {
+@objc public class CardView: BaseView {
     
     open var customView: UIView!
     open var color: UIColor!
