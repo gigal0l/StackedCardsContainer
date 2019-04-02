@@ -10,17 +10,17 @@ import UIKit
 
 //MARK: - Support struct Corners
 /**
- This struct has properties of each corner which declarate by type.
+ This class has properties of each corner which declarate by type.
  * 0 – straight corner
  * 1 - rounded corner
  * 2 - cutOff corner
  */
 @objcMembers
 open class Corners {
-    public var topLeft = CornerType.straight
-    public var topRight = CornerType.straight
-    public var bottomLeft = CornerType.straight
-    public var bottomRight = CornerType.straight
+    open var topLeft = CornerType.straight
+    open var topRight = CornerType.straight
+    open var bottomLeft = CornerType.straight
+    open var bottomRight = CornerType.straight
     
     public init(topLeft: CornerType, topRight: CornerType, bottomRight: CornerType, bottomLeft: CornerType) {
         self.topLeft = topLeft
@@ -30,20 +30,20 @@ open class Corners {
     }
 }
 
-//MARK: - Support struct CornersSizes
+//MARK: - Support class CornersSizes
 /**
- This struct has properties of cut-off corner's size and properties for acr UIBezierPath
+ This class has properties of cut-off corner's size and properties for acr UIBezierPath
 */
 @objcMembers
 open class CornersSizes {
-    public var topLeftCutOff: CGFloat = 0.0
-    public var topRightCutOff: CGFloat = 0.0
-    public var bottomLeftCutOff: CGFloat = 0.0
-    public var bottomRightCutOff: CGFloat = 0.0
+    open var topLeftCutOff: CGFloat = 0.0
+    open var topRightCutOff: CGFloat = 0.0
+    open var bottomLeftCutOff: CGFloat = 0.0
+    open var bottomRightCutOff: CGFloat = 0.0
     
     //property for acr
-    public var offset: CGFloat = 0.0
-    public var radius: CGFloat = 0.0
+    open var offset: CGFloat = 0.0
+    open var radius: CGFloat = 0.0
     
     public init(topLeftCutOff: CGFloat, topRightCutOff: CGFloat, bottomLeftCutOff: CGFloat, bottomRightCutOff: CGFloat, offset: CGFloat, radius: CGFloat) {
         self.topLeftCutOff = topLeftCutOff
