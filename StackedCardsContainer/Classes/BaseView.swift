@@ -9,13 +9,14 @@
 import UIKit
 import pop
 
-@objc public protocol BaseViewDelegate: class {
-    func didTap(view: BaseView)
-    func didBeginSwipe(onView view: BaseView)
-    func didEndSwipe(onView view: BaseView)
+@objc public protocol BaseViewDelegate {
+    @objc func didTap(view: BaseView)
+    @objc func didBeginSwipe(onView view: BaseView)
+    @objc func didEndSwipe(onView view: BaseView)
 }
 
-@objc public class BaseView: UIView {
+@objcMembers
+open class BaseView: UIView {
     
     fileprivate struct Constants {
         // MARK: - Drag Animation Settings
@@ -29,12 +30,12 @@ import pop
         static var cardViewResetAnimationDuration: TimeInterval = 0.2
     }
     
-    public weak var delegate: BaseViewDelegate?
+    weak var delegate: BaseViewDelegate?
     
     // MARK: - Gesture Recognizer
-    public var panGestureRecognizer: UIPanGestureRecognizer?
-    public var panGestureTranslation: CGPoint = .zero
-    public var tapGestureRecognizer: UITapGestureRecognizer?
+    open var panGestureRecognizer: UIPanGestureRecognizer?
+    open var panGestureTranslation: CGPoint = .zero
+    open var tapGestureRecognizer: UITapGestureRecognizer?
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -53,7 +54,7 @@ import pop
         }
     }
     
-    public func setupGestureRecognizers() {
+    open func setupGestureRecognizers() {
         // Pan Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         self.panGestureRecognizer = panGestureRecognizer
@@ -129,7 +130,7 @@ import pop
     }
     
     // MARK: - Tap Gesture Recognizer
-    @objc public func tapRecognized(_ recognizer: UITapGestureRecognizer) {
+    @objc open func tapRecognized(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTap(view: self)
     }
 }

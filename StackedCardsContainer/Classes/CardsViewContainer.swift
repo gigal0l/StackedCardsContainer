@@ -8,18 +8,19 @@
 
 import UIKit
 
-@objc public protocol CardViewDelegate: class {
-    func didSelect(card: CardView, atIndex index: Int)
-    func didBeginSwipe(card: CardView, index: Int)
-    func didEndSwipe(card: CardView, index: Int)
+@objc public protocol CardViewDelegate {
+    @objc func didSelect(card: CardView, atIndex index: Int)
+    @objc func didBeginSwipe(card: CardView, index: Int)
+    @objc func didEndSwipe(card: CardView, index: Int)
 }
 
-@objc public protocol CardViewDataSource: class {
-    func numberOfCards() -> Int
-    func card(forItemAtIndex index: Int) -> CardView
+@objc public protocol CardViewDataSource {
+    @objc func numberOfCards() -> Int
+    @objc func card(forItemAtIndex index: Int) -> CardView
 }
 
-@objc public class CardsViewContainer: UIView {
+@objcMembers
+open class CardsViewContainer: UIView {
     
     open weak var dataSource: CardViewDataSource? {
         didSet {
@@ -27,15 +28,15 @@ import UIKit
         }
     }
     
-    public weak var delegate: CardViewDelegate?
+    weak var delegate: CardViewDelegate?
 
-    public var offset: CGPoint = CGPoint(x: 20, y: 30)
-    public let horizontalInset: CGFloat = 12.0
-    public let verticalInset: CGFloat = 12.0
-    public let numberOfVisibleCards: Int = 3
+    @objc open var offset: CGPoint = CGPoint(x: 20, y: 30)
+    @objc public let horizontalInset: CGFloat = 12.0
+    @objc public let verticalInset: CGFloat = 12.0
+    @objc public let numberOfVisibleCards: Int = 3
     
-    public var cardsViews = [CardView]()
-    public var visibleCardsViews: [CardView] {
+    @objc open var cardsViews = [CardView]()
+    @objc open var visibleCardsViews: [CardView] {
         return subviews as? [CardView] ?? []
     }
     

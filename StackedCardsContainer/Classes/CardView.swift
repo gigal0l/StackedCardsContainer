@@ -63,8 +63,9 @@ public enum CornerType {
     case cutOff
 }
 
+@objcMembers
 //MARK: - CardView
-@objc public class CardView: BaseView {
+open class CardView: BaseView {
     
     open var customView: UIView!
     open var color: UIColor!
