@@ -10,44 +10,47 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Installation
+## How to set up ?
 
-StackedCardsContainer is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+**Using CocoaPods (Recommended)**
+
+To install it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'StackedCardsContainer'
 ```
-## Getting start guide
-- For first, inherit from class 'CardsViewContainer':
-```swift
-    class CardsContainer: CardsViewContainer! 
-    { ... }
-```
-or create UIView in storyboard and set custom view 'CardsViewContainer'
+Then you can install it with pod install command.
+
+**Carthage _(SOON)_**
+
+## How to use it? 
+
+After install, make your UIView subclass of **_CardsViewContainer_** or create UIView in storyboard and set custom class **_CardsViewContainer_**
 
 ![StackedCardsContainer customClassScreenShot](https://snag.gy/LH8cR4.jpg)
 
-- Don't forget to set the delegate & datasource class;
+## Delegate & DataSource
 
-```swift
-    cardsViewContainer.dataSource = self
-    cardsViewContainer.delegate = self
-```
+Last step is to set delegate & datasource class. 
 
-- I have prepared the parameters so that you can customize the cards at your wish:
-  - public var offset: CGPoint –– property for change start point of the card;
-  - public let horizontalInset: CGFloat & public let verticalInset: CGFloat –– these are for horizontal and vertical position changes;
-  - public let numberOfVisibleCards: Int –– property for set a number of visible cards in container;
-   
-```swift
-    cardsViewContainer.offset = CGPoint(x: 20, y: 30)
-    cardsViewContainer.horizontalInset: CGFloat = 22.0
-    cardsViewContainer.verticalInset: CGFloat = 22.0
-    cardsViewContainer.numberOfVisibleCards: Int = 3
-``` 
+Congratulations, your are ready to start. 🎉
 
-4. The example of initialization of card. You can set custom view, background image of the card. Use support structs (Corners, CornersSizes) to set type of corner and size of cut-off corner.
+## Customization
+
+Customizable properties
+- **public var offset: CGPoint**
+
+Property for change start point of the card. Default value CGPoint(x: 20, y: 30).
+
+- **public let horizontalInset: CGFloat & public let verticalInset: CGFloat** 
+
+These are for horizontal and vertical position changes. Default is CGPoint(x: 20, y: 30).
+
+- **public let numberOfVisibleCards: Int** 
+
+Property for set a number of visible cards in container. Default is 3.
+
+The example of initialization of card. You can set custom view, background image of the card. Use support structs (Corners, CornersSizes) to set type of corner and size of cut-off corner.
 
 ```swift
     func card(forItemAtIndex index: Int) -> CardView {
