@@ -19,7 +19,7 @@ To install it, simply add the following line to your Podfile:
 ```ruby
 pod 'StackedCardsContainer'
 ```
-Then you can install it with pod install command.
+Then you can install it with `pod install` command.
 
 **Carthage _(SOON)_**
 
