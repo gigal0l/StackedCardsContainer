@@ -36,6 +36,7 @@ open class BaseView: UIView {
     open var panGestureRecognizer: UIPanGestureRecognizer?
     open var panGestureTranslation: CGPoint = .zero
     open var tapGestureRecognizer: UITapGestureRecognizer?
+    open var swipeGestureRecognizer: UISwipeGestureRecognizer?
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -55,15 +56,33 @@ open class BaseView: UIView {
     }
     
     open func setupGestureRecognizers() {
-        // Pan Gesture Recognizer
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
-        self.panGestureRecognizer = panGestureRecognizer
-        addGestureRecognizer(panGestureRecognizer)
+//        // Pan Gesture Recognizer
+//        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
+//        self.panGestureRecognizer = panGestureRecognizer
+//        addGestureRecognizer(panGestureRecognizer)
+//
+//        // Tap Gesture Recognizer
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
+//        self.tapGestureRecognizer = tapGestureRecognizer
+//        addGestureRecognizer(tapGestureRecognizer)
         
-        // Tap Gesture Recognizer
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
-        self.tapGestureRecognizer = tapGestureRecognizer
-        addGestureRecognizer(tapGestureRecognizer)
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeLeft.direction = .left
+        addGestureRecognizer(swipeLeft)
+        
+//        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeGestureRecognized(_:)))
+//        self.swipeGestureRecognizer = swipeGestureRecognizer
+//        addGestureRecognizer(swipeGestureRecognizer)
+    }
+    
+    @objc private func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        if gesture.direction == .left {
+            let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
+            translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
+            translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
+            layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
+            self.delegate?.didEndSwipe(onView: self)
+        }
     }
     
     // MARK: - Pan Gesture Recognizer
@@ -72,21 +91,23 @@ open class BaseView: UIView {
         
         switch gestureRecognizer.state {
         case .began:
-            let initialTouchPoint = gestureRecognizer.location(in: self)
-            let newAnchorPoint = CGPoint(x: initialTouchPoint.x / bounds.width, y: initialTouchPoint.y / bounds.height)
-            let oldPosition = CGPoint(x: bounds.size.width * layer.anchorPoint.x, y: bounds.size.height * layer.anchorPoint.y)
-            let newPosition = CGPoint(x: bounds.size.width * newAnchorPoint.x, y: bounds.size.height * newAnchorPoint.y)
-            layer.anchorPoint = newAnchorPoint
-            layer.position = CGPoint(x: layer.position.x - oldPosition.x + newPosition.x, y: layer.position.y - oldPosition.y + newPosition.y)
-            layer.rasterizationScale = UIScreen.main.scale
-            layer.shouldRasterize = true
-            delegate?.didBeginSwipe(onView: self)
+            if let velocity = panGestureRecognizer?.velocity(in: self), abs(velocity.y) > abs(velocity.x) {
+                let initialTouchPoint = gestureRecognizer.location(in: self)
+                let newAnchorPoint = CGPoint(x: initialTouchPoint.x / bounds.width, y: initialTouchPoint.y / bounds.height)
+                let oldPosition = CGPoint(x: bounds.size.width * layer.anchorPoint.x, y: bounds.size.height * layer.anchorPoint.y)
+                let newPosition = CGPoint(x: bounds.size.width * newAnchorPoint.x, y: bounds.size.height * newAnchorPoint.y)
+                layer.anchorPoint = newAnchorPoint
+                layer.position = CGPoint(x: layer.position.x - oldPosition.x + newPosition.x, y: layer.position.y)
+                layer.rasterizationScale = UIScreen.main.scale
+                layer.shouldRasterize = true
+                delegate?.didBeginSwipe(onView: self)
+            }
         case .changed:
             var transform = CATransform3DIdentity
             transform = CATransform3DTranslate(transform, panGestureTranslation.x, panGestureTranslation.y, 0)
             layer.transform = transform
         case .ended:
-            if let velocity = panGestureRecognizer?.velocity(in: self), velocity.x < 0 {
+            if let velocity = panGestureRecognizer?.velocity(in: self), velocity.x < 0 && (abs(velocity.y) < abs(velocity.x)) {
                 let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
                 translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
                 translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
