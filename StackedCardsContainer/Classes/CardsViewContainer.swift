@@ -10,7 +10,6 @@ import UIKit
 
 @objc public protocol CardViewDelegate {
     @objc func didSelect(card: CardView, atIndex index: Int)
-    @objc func didBeginSwipe(card: CardView, index: Int)
     @objc func didEndSwipe(card: CardView, index: Int)
 }
 
@@ -30,7 +29,7 @@ open class CardsViewContainer: UIView {
     
     open weak var delegate: CardViewDelegate?
 
-    @objc open var offset: CGPoint = CGPoint(x: 20, y: 30)
+    @objc open var offset: CGPoint = CGPoint(x: 60, y: 70)
     @objc public let horizontalInset: CGFloat = 12.0
     @objc public let verticalInset: CGFloat = 12.0
     @objc public let numberOfVisibleCards: Int = 3
@@ -111,15 +110,6 @@ extension CardsViewContainer: BaseViewDelegate {
         }
     }
     
-    public func didBeginSwipe(onView view: BaseView) {
-        if let cardView = view as? CardView,
-            let dataSource = dataSource,
-            let index = cardsViews.firstIndex(of: cardView) {
-            let newIndex = index % dataSource.numberOfCards()
-            delegate?.didBeginSwipe(card: cardView, index: newIndex)
-        }
-    }
-    
     public func didEndSwipe(onView view: BaseView) {
         guard let dataSource = dataSource, let cardView = view as? CardView else { return }
         if let index = cardsViews.firstIndex(of: cardView) {
@@ -147,7 +137,7 @@ extension CardsViewContainer: BaseViewDelegate {
         // to reveal new card from underneath the stack of existing cards.
         for (cardIndex, cardView) in reversedCards.enumerated() {
             UIView.animate(withDuration: 0.2, animations: {
-                view.center = self.center
+//                view.center = self.center
                 self.setFrame(forCardView: cardView, atIndex: cardIndex)
                 self.layoutIfNeeded()
             })

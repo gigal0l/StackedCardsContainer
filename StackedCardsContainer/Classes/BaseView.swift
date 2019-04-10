@@ -7,36 +7,19 @@
 //
 
 import UIKit
-import pop
 
 @objc public protocol BaseViewDelegate {
     @objc func didTap(view: BaseView)
-    @objc func didBeginSwipe(onView view: BaseView)
     @objc func didEndSwipe(onView view: BaseView)
 }
 
 @objcMembers
 open class BaseView: UIView {
     
-    fileprivate struct Constants {
-        // MARK: - Drag Animation Settings
-        static var animationDirectionY: CGFloat = 1.0
-        static var swipePercentageMargin: CGFloat = 0.6
-        // MARK: - Card Finalize Swipe Animation
-        static var finalizeSwipeActionAnimationDuration: TimeInterval = 0.8
-        // MARK: - Card Reset Animation
-        static var cardViewResetAnimationSpringBounciness: CGFloat = 10.0
-        static var cardViewResetAnimationSpringSpeed: CGFloat = 20.0
-        static var cardViewResetAnimationDuration: TimeInterval = 0.2
-    }
-    
     weak var delegate: BaseViewDelegate?
     
     // MARK: - Gesture Recognizer
-    open var panGestureRecognizer: UIPanGestureRecognizer?
-    open var panGestureTranslation: CGPoint = .zero
     open var tapGestureRecognizer: UITapGestureRecognizer?
-    open var swipeGestureRecognizer: UISwipeGestureRecognizer?
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -47,107 +30,35 @@ open class BaseView: UIView {
     }
     
     deinit {
-        if let panGestureRecognizer = panGestureRecognizer {
-            removeGestureRecognizer(panGestureRecognizer)
-        }
         if let tapGestureRecognizer = tapGestureRecognizer {
             removeGestureRecognizer(tapGestureRecognizer)
         }
     }
     
     open func setupGestureRecognizers() {
-//        // Pan Gesture Recognizer
-//        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
-//        self.panGestureRecognizer = panGestureRecognizer
-//        addGestureRecognizer(panGestureRecognizer)
-//
-//        // Tap Gesture Recognizer
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
-//        self.tapGestureRecognizer = tapGestureRecognizer
-//        addGestureRecognizer(tapGestureRecognizer)
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        // Tap Gesture Recognizer
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
+        self.tapGestureRecognizer = tapGestureRecognizer
+        addGestureRecognizer(tapGestureRecognizer)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeGestureRecognized(_:)))
         swipeLeft.direction = .left
         addGestureRecognizer(swipeLeft)
-        
-//        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeGestureRecognized(_:)))
-//        self.swipeGestureRecognizer = swipeGestureRecognizer
-//        addGestureRecognizer(swipeGestureRecognizer)
     }
     
-    @objc private func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
-        if gesture.direction == .left {
-            let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
-            translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
-            translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
-            layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
-            self.delegate?.didEndSwipe(onView: self)
-        }
-    }
-    
-    // MARK: - Pan Gesture Recognizer
-    @objc private func panGestureRecognized(_ gestureRecognizer: UIPanGestureRecognizer) {
-        panGestureTranslation = gestureRecognizer.translation(in: self)
-        
-        switch gestureRecognizer.state {
-        case .began:
-            if let velocity = panGestureRecognizer?.velocity(in: self), abs(velocity.y) > abs(velocity.x) {
-                let initialTouchPoint = gestureRecognizer.location(in: self)
-                let newAnchorPoint = CGPoint(x: initialTouchPoint.x / bounds.width, y: initialTouchPoint.y / bounds.height)
-                let oldPosition = CGPoint(x: bounds.size.width * layer.anchorPoint.x, y: bounds.size.height * layer.anchorPoint.y)
-                let newPosition = CGPoint(x: bounds.size.width * newAnchorPoint.x, y: bounds.size.height * newAnchorPoint.y)
-                layer.anchorPoint = newAnchorPoint
-                layer.position = CGPoint(x: layer.position.x - oldPosition.x + newPosition.x, y: layer.position.y)
-                layer.rasterizationScale = UIScreen.main.scale
-                layer.shouldRasterize = true
-                delegate?.didBeginSwipe(onView: self)
+    @objc private func swipeGestureRecognized(_ swipeRecognizer: UISwipeGestureRecognizer) {
+        if swipeRecognizer.direction == .left {
+            UIView.animate(withDuration: 0.15) {
+                self.layer.frame = CGRect(x: 0, y: self.layer.frame.origin.y, width: self.layer.frame.width, height: self.layer.frame.height)
+                self.layoutIfNeeded()
             }
-        case .changed:
-            var transform = CATransform3DIdentity
-            transform = CATransform3DTranslate(transform, panGestureTranslation.x, panGestureTranslation.y, 0)
-            layer.transform = transform
-        case .ended:
-            if let velocity = panGestureRecognizer?.velocity(in: self), velocity.x < 0 && (abs(velocity.y) < abs(velocity.x)) {
-                let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
-                translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
-                translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
-                layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
-                self.delegate?.didEndSwipe(onView: self)
-            } else {
-                resetCardViewPosition()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                if self.layer.frame.origin.x == 0 {
+                    self.delegate?.didEndSwipe(onView: self)
+                }
             }
-            layer.shouldRasterize = false
-        default:
-            resetCardViewPosition()
-            layer.shouldRasterize = false
         }
-    }
-    
-    public func resetCardViewPosition() {
-        removeAnimations()
-        
-        // Reset Translation
-        let resetPositionAnimation = POPSpringAnimation(propertyNamed: kPOPLayerTranslationXY)
-        resetPositionAnimation?.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
-        resetPositionAnimation?.toValue = NSValue(cgPoint: CGPoint.zero)
-        resetPositionAnimation?.springBounciness = Constants.cardViewResetAnimationSpringBounciness
-        resetPositionAnimation?.springSpeed = Constants.cardViewResetAnimationSpringSpeed
-        resetPositionAnimation?.completionBlock = { _, _ in
-            self.layer.transform = CATransform3DIdentity
-        }
-        layer.pop_add(resetPositionAnimation, forKey: "resetPositionAnimation")
-        
-        // Reset Rotation
-        let resetRotationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerRotation)
-        resetRotationAnimation?.fromValue = POPLayerGetRotationZ(layer)
-        resetRotationAnimation?.toValue = CGFloat(0.0)
-        resetRotationAnimation?.duration = Constants.cardViewResetAnimationDuration
-        layer.pop_add(resetRotationAnimation, forKey: "resetRotationAnimation")
-    }
-    
-    public func removeAnimations() {
-        pop_removeAllAnimations()
-        layer.pop_removeAllAnimations()
     }
     
     // MARK: - Tap Gesture Recognizer
