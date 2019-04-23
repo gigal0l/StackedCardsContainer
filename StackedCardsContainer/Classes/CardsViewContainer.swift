@@ -61,6 +61,9 @@ open class CardsViewContainer: UIView {
         for index in 0..<min(numberOfCards, numberOfVisibleCards) {
             addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
         }
+        if numberOfCards == 1 {
+            cardsViews.first?.setupGestureRecognizers()
+        }
         setNeedsLayout()
     }
     
@@ -106,6 +109,7 @@ extension CardsViewContainer: BaseViewDelegate {
             let dataSource = dataSource,
             let index = cardsViews.firstIndex(of: cardView) {
             let newIndex = index % dataSource.numberOfCards()
+            print(newIndex)
             delegate?.didSelect(card: cardView, atIndex: newIndex)
         }
     }
@@ -137,7 +141,7 @@ extension CardsViewContainer: BaseViewDelegate {
         // to reveal new card from underneath the stack of existing cards.
         for (cardIndex, cardView) in reversedCards.enumerated() {
             UIView.animate(withDuration: 0.2, animations: {
-//                view.center = self.center
+                view.center = self.center
                 self.setFrame(forCardView: cardView, atIndex: cardIndex)
                 self.layoutIfNeeded()
             })

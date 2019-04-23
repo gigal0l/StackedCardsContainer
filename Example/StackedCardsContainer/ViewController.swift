@@ -13,10 +13,9 @@ class ViewController: UIViewController {
     
     @IBOutlet var cardsViewContainer: CardsViewContainer!
 
-    let colorArray = [UIColor.red, UIColor.green, UIColor.blue]
-    var imageArray: [UIImage] = [UIImage(named: "image1")!, UIImage(named: "image2")!, UIImage(named: "image3")!]
-    //, UIColor.black, UIColor.orange, UIColor.gray, UIColor.brown, UIColor.darkGray
-    
+    let colorArray = [UIColor.red, UIColor.green]
+    var imageArray: [UIImage] = [UIImage(named: "image1")!, UIImage(named: "image2")!]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         cardsViewContainer.setNeedsLayout()
