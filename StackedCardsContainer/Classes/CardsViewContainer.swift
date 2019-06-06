@@ -145,13 +145,13 @@ extension CardsViewContainer: BaseViewDelegate {
 
         // Update all existing card's frames based on new indexes, animate frame change
         // to reveal new card from underneath the stack of existing cards.
-        for (cardIndex, cardView) in reversedCards.enumerated() {
-            UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
+            for (cardIndex, cardView) in reversedCards.enumerated() {
                 view.center = self.center
                 self.setFrame(forCardView: cardView, atIndex: cardIndex)
-            }, completion: { (completed) in
-                self.layoutIfNeeded()
-            })
-        }
+            }
+        }, completion: { (completed) in
+            self.layoutIfNeeded()
+        })
     }
 }
