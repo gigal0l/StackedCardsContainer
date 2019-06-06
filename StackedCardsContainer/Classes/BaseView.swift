@@ -37,8 +37,6 @@ open class BaseView: UIView {
     open var panGestureTranslation: CGPoint = .zero
     open var tapGestureRecognizer: UITapGestureRecognizer?
     
-    private var panStartPoint: CGPoint?
-    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -76,7 +74,6 @@ open class BaseView: UIView {
         switch gestureRecognizer.state {
         case .began:
             let initialTouchPoint = gestureRecognizer.location(in: self)
-            panStartPoint = initialTouchPoint
             let newAnchorPoint = CGPoint(x: initialTouchPoint.x / bounds.width, y: initialTouchPoint.y / bounds.height)
             let oldPosition = CGPoint(x: bounds.size.width * layer.anchorPoint.x, y: bounds.size.height * layer.anchorPoint.y)
             let newPosition = CGPoint(x: bounds.size.width * newAnchorPoint.x, y: bounds.size.height * newAnchorPoint.y)
@@ -90,8 +87,10 @@ open class BaseView: UIView {
             transform = CATransform3DTranslate(transform, panGestureTranslation.x, panGestureTranslation.y, 0)
             layer.transform = transform
         case .ended:
-            let diff = abs(panStartPoint?.x ?? 0.0 - gestureRecognizer.location(in: self).x)
-            if let velocity = panGestureRecognizer?.velocity(in: self), velocity.x < 0, diff > 100 {
+            let velocity = panGestureRecognizer?.velocity(in: self)
+            let xVelocity = velocity?.x
+            print("xVelocity: \(xVelocity ?? 0)")
+            if xVelocity ?? 0 < -1300 {
                 let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
                 translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
                 translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
