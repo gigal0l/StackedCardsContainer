@@ -56,12 +56,18 @@ open class BaseView: UIView {
     
     open func setupGestureRecognizers() {
         // Pan Gesture Recognizer
+        if let pan = panGestureRecognizer {
+            removeGestureRecognizer(pan)
+        }
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         self.panGestureRecognizer = panGestureRecognizer
         panGestureRecognizer.delegate = self
         addGestureRecognizer(panGestureRecognizer)
         
         // Tap Gesture Recognizer
+        if let tap = tapGestureRecognizer {
+            removeGestureRecognizer(tap)
+        }
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognized(_:)))
         self.tapGestureRecognizer = tapGestureRecognizer
         addGestureRecognizer(tapGestureRecognizer)
