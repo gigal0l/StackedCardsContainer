@@ -58,6 +58,7 @@ open class BaseView: UIView {
         // Pan Gesture Recognizer
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         self.panGestureRecognizer = panGestureRecognizer
+        panGestureRecognizer.delegate = self
         addGestureRecognizer(panGestureRecognizer)
         
         // Tap Gesture Recognizer
@@ -132,5 +133,15 @@ open class BaseView: UIView {
     // MARK: - Tap Gesture Recognizer
     @objc open func tapRecognized(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTap(view: self)
+    }
+}
+
+extension BaseView: UIGestureRecognizerDelegate {
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let pan = gestureRecognizer as? UIPanGestureRecognizer {
+            let velocity = pan.velocity(in: self)
+            return abs(velocity.y) < abs(velocity.x);
+        }
+        return true
     }
 }

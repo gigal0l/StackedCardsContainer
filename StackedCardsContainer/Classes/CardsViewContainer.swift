@@ -149,6 +149,7 @@ extension CardsViewContainer: BaseViewDelegate {
             UIView.animate(withDuration: 0.2, animations: {
                 view.center = self.center
                 self.setFrame(forCardView: cardView, atIndex: cardIndex)
+            }, completion: { (completed) in
                 self.layoutIfNeeded()
             })
         }
