@@ -65,6 +65,17 @@ open class CardsViewContainer: UIView {
         setNeedsLayout()
     }
     
+    open func reloadItemAtIndex(_ index: Int) {
+        guard let dataSource = dataSource else { return }
+        let views = visibleCardsViews
+        if index < views.count {
+            let cardView = views[index]
+            cardView.removeFromSuperview()
+            addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
+            setNeedsLayout()
+        }
+    }
+    
     private func addCardView(cardView: CardView, atIndex index: Int) {
         cardView.delegate = self
         setFrame(forCardView: cardView, atIndex: index)
