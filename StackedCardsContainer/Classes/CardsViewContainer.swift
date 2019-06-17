@@ -78,11 +78,11 @@ open class CardsViewContainer: UIView {
     
     private func addCardView(cardView: CardView, atIndex index: Int) {
         cardView.delegate = self
-        setFrame(forCardView: cardView, atIndex: index)
-        layoutIfNeeded()
         cardsViews.append(cardView)
         insertSubview(cardView, at: 0)
         remainingCards -= 1
+        setFrame(forCardView: cardView, atIndex: index)
+        layoutIfNeeded()
     }
     
     private func removeAllCardViews() {
@@ -105,15 +105,16 @@ open class CardsViewContainer: UIView {
         
         cardView.frame = cardViewFrame
         cardView.setShadow()
-        
+
         if visibleCardsViews.count >= 1 {
-            visibleCardsViews.reversed().first?.setupGestureRecognizers()
+            visibleCardsViews.reversed().first?.setupGestureRecognizers(enablePan: dataSource?.numberOfCards() ?? 0 > 1)
         }
     }
 }
 
 extension CardsViewContainer: BaseViewDelegate {
     public func didTap(view: BaseView) {
+        print(#function)
         if let cardView = view as? CardView,
             let dataSource = dataSource,
             let index = cardsViews.firstIndex(of: cardView) {
