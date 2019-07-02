@@ -97,10 +97,6 @@ open class CardView: BaseView {
     
     open override func draw(_ rect: CGRect) {
         
-        if prevRect == rect {
-            return
-        }
-        
         let path = drawView(by: corners, cornersSizes: cornersSize)
         
         // fill the path
@@ -119,6 +115,10 @@ open class CardView: BaseView {
         backgroundColor = .clear
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+        layer.drawsAsynchronously = true
+        customView.layer.shouldRasterize = true
+        customView.layer.rasterizationScale = UIScreen.main.scale
+        customView.layer.drawsAsynchronously = true
     }
     
     private func drawView(by corners: Corners, cornersSizes: CornersSizes) -> UIBezierPath {
