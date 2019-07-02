@@ -114,7 +114,6 @@ open class CardsViewContainer: UIView {
 
 extension CardsViewContainer: BaseViewDelegate {
     public func didTap(view: BaseView) {
-        print(#function)
         if let cardView = view as? CardView,
             let dataSource = dataSource,
             let index = cardsViews.firstIndex(of: cardView) {

@@ -48,15 +48,12 @@ extension ViewController: CardViewDataSource {
 
 extension ViewController: CardViewDelegate {
     func didBeginSwipe(card: CardView, index: Int) {
-        print(#function)
     }
     
     func didEndSwipe(card: CardView, index: Int) {
-        print(#function)
     }
     
     func didSelect(card: CardView, atIndex index: Int) {
-        print(#function)
     }
     
 }
