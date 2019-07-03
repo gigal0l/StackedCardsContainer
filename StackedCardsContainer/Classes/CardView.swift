@@ -113,7 +113,6 @@ open class CardView: BaseView {
         addSubview(customView)
         customView.pin(to: self, leftOffset: 10, rightOffset: -50, topOffset: 10, bottomOffset: -10)
         backgroundColor = .clear
-        layer.drawsAsynchronously = true
     }
     
     private func drawView(by corners: Corners, cornersSizes: CornersSizes) -> UIBezierPath {
