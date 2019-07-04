@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'StackedCardsContainer'
-  s.version          = '1.4.6'
+  s.version          = '1.4.7'
   s.summary          = 'StackedCardsContainer'
 
 # This description is used to generate tags and improve search results.
