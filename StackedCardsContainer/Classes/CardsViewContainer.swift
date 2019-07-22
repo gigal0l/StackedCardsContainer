@@ -10,7 +10,6 @@ import UIKit
 
 @objc public protocol CardViewDelegate {
     @objc func didSelect(card: CardView, atIndex index: Int)
-    @objc func didBeginSwipe(card: CardView, index: Int)
     @objc func didEndSwipe(card: CardView, index: Int)
 }
 
@@ -30,7 +29,7 @@ open class CardsViewContainer: UIView {
     
     open weak var delegate: CardViewDelegate?
 
-    @objc open var offset: CGPoint = CGPoint(x: 20, y: 30)
+    @objc open var offset: CGPoint = CGPoint(x: 60, y: 70)
     @objc public let horizontalInset: CGFloat = 12.0
     @objc public let verticalInset: CGFloat = 12.0
     @objc public let numberOfVisibleCards: Int = 3
@@ -61,6 +60,9 @@ open class CardsViewContainer: UIView {
         
         for index in 0..<min(numberOfCards, numberOfVisibleCards) {
             addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
+        }
+        if numberOfCards == 1 {
+            cardsViews.first?.setupGestureRecognizers()
         }
         setNeedsLayout()
     }
@@ -118,16 +120,8 @@ extension CardsViewContainer: BaseViewDelegate {
             let dataSource = dataSource,
             let index = cardsViews.firstIndex(of: cardView) {
             let newIndex = index % dataSource.numberOfCards()
+            print(newIndex)
             delegate?.didSelect(card: cardView, atIndex: newIndex)
-        }
-    }
-    
-    public func didBeginSwipe(onView view: BaseView) {
-        if let cardView = view as? CardView,
-            let dataSource = dataSource,
-            let index = cardsViews.firstIndex(of: cardView) {
-            let newIndex = index % dataSource.numberOfCards()
-            delegate?.didBeginSwipe(card: cardView, index: newIndex)
         }
     }
     

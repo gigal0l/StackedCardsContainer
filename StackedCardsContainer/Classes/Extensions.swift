@@ -30,43 +30,6 @@ extension UIView {
     }
 }
 
-//MARK: CGPoint+Additions
-extension CGPoint {
-    func normalizedDistanceForSize(_ size: CGSize) -> CGPoint {
-        // multiplies by 2 because coordinate system is (-1,1)
-        let x = 2 * (self.x / size.width)
-        let y = 2 * (self.y / size.height)
-        return CGPoint(x: x, y: y)
-    }
-    
-    func distanceTo(_ point: CGPoint) -> CGFloat {
-        return sqrt(pow(point.x - self.x, 2) + pow(point.y - self.y, 2))
-    }
-    
-    func scalarProjectionPointWith(_ point: CGPoint) -> CGPoint {
-        let r = scalarProjectionWith(point) / point.modulo
-        return CGPoint(x: point.x * r, y: point.y * r)
-    }
-    
-    func scalarProjectionWith(_ point: CGPoint) -> CGFloat {
-        return dotProductWith(point) / point.modulo
-    }
-    
-    func dotProductWith(_ point: CGPoint) -> CGFloat {
-        return (self.x * point.x) + (self.y * point.y)
-    }
-    
-    var modulo: CGFloat {
-        return sqrt(self.x*self.x + self.y*self.y)
-    }
-    
-    func screenPointForSize(_ screenSize: CGSize) -> CGPoint {
-        let x = 0.5 * (1 + self.x) * screenSize.width
-        let y = 0.5 * (1 + self.y) * screenSize.height
-        return CGPoint(x: x, y: y)
-    }
-}
-
 extension UIImage {
     final func resizeImage(_ size: CGSize) -> UIImage {
         var scaledImageRect = CGRect.zero
