@@ -67,13 +67,24 @@ open class CardsViewContainer: UIView {
         setNeedsLayout()
     }
     
+    open func reloadItemAtIndex(_ index: Int) {
+        guard let dataSource = dataSource else { return }
+        let views = visibleCardsViews
+        if index < views.count {
+            let cardView = views[index]
+            cardView.removeFromSuperview()
+            addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
+            setNeedsLayout()
+        }
+    }
+    
     private func addCardView(cardView: CardView, atIndex index: Int) {
         cardView.delegate = self
-        setFrame(forCardView: cardView, atIndex: index)
-        layoutIfNeeded()
         cardsViews.append(cardView)
         insertSubview(cardView, at: 0)
         remainingCards -= 1
+        setFrame(forCardView: cardView, atIndex: index)
+        layoutIfNeeded()
     }
     
     private func removeAllCardViews() {
@@ -96,9 +107,9 @@ open class CardsViewContainer: UIView {
         
         cardView.frame = cardViewFrame
         cardView.setShadow()
-        
+
         if visibleCardsViews.count >= 1 {
-            visibleCardsViews.reversed().first?.setupGestureRecognizers()
+            visibleCardsViews.reversed().first?.setupGestureRecognizers(enablePan: dataSource?.numberOfCards() ?? 0 > 1)
         }
     }
 }
@@ -139,12 +150,13 @@ extension CardsViewContainer: BaseViewDelegate {
 
         // Update all existing card's frames based on new indexes, animate frame change
         // to reveal new card from underneath the stack of existing cards.
-        for (cardIndex, cardView) in reversedCards.enumerated() {
-            UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
+            for (cardIndex, cardView) in reversedCards.enumerated() {
                 view.center = self.center
                 self.setFrame(forCardView: cardView, atIndex: cardIndex)
-                self.layoutIfNeeded()
-            })
-        }
+            }
+        }, completion: { (completed) in
+            self.layoutIfNeeded()
+        })
     }
 }

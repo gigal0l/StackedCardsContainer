@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         cardsViewContainer.setNeedsLayout()
         cardsViewContainer.layoutIfNeeded()
         cardsViewContainer.dataSource = self
+        cardsViewContainer.delegate = self
     }
 }
 
@@ -40,5 +41,19 @@ extension ViewController: CardViewDataSource {
         let cardView = CardView(frame: CGRect(x: 0, y: 0, width: cardsViewContainer.bounds.width - 50, height: cardsViewContainer.bounds.height - 10), color: color, customView: view, image: image, corners: corners, cornersSize: cornersSizes)
         return cardView
     }
+    
+    
+}
+
+extension ViewController: CardViewDelegate {
+    func didBeginSwipe(card: CardView, index: Int) {
+    }
+    
+    func didEndSwipe(card: CardView, index: Int) {
+    }
+    
+    func didSelect(card: CardView, atIndex index: Int) {
+    }
+    
 }
 
