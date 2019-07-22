@@ -77,6 +77,8 @@ open class CardView: BaseView {
     open var corners: Corners!
     open var cornersSize: CornersSizes!
     
+    private var prevRect: CGRect?
+    
     @objc public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: Corners, cornersSize: CornersSizes) {
         self.color = color
         self.customView = customView

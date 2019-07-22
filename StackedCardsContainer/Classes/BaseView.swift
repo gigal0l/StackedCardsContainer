@@ -66,3 +66,13 @@ open class BaseView: UIView {
         delegate?.didTap(view: self)
     }
 }
+
+extension BaseView: UIGestureRecognizerDelegate {
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let pan = gestureRecognizer as? UIPanGestureRecognizer {
+            let velocity = pan.velocity(in: self)
+            return abs(velocity.y) < abs(velocity.x);
+        }
+        return true
+    }
+}
