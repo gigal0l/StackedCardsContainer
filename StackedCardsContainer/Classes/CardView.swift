@@ -74,6 +74,7 @@ open class CardView: BaseView {
     open var customView: UIView!
     open var color: UIColor!
     open var image: UIImage?
+    //help
     open var corners: Corners!
     open var cornersSize: CornersSizes!
     
