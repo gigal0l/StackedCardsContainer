@@ -46,7 +46,7 @@ open class CornersSizes: NSObject {
     open var offset: CGFloat = 0.0
     open var radius: CGFloat = 0.0
     
-    @objc public init(topLeftCutOff: CGFloat, topRightCutOff: CGFloat, bottomLeftCutOff: CGFloat, bottomRightCutOff: CGFloat, offset: CGFloat, radius: CGFloat) {
+    @objc public init(topLeftCutOff: CGFloat = .zero, topRightCutOff: CGFloat = .zero, bottomLeftCutOff: CGFloat = .zero, bottomRightCutOff: CGFloat = .zero, offset: CGFloat = .zero, radius: CGFloat = .zero) {
         super.init()
         self.topLeftCutOff = topLeftCutOff
         self.topRightCutOff = topRightCutOff
@@ -71,21 +71,54 @@ open class CornersSizes: NSObject {
 //MARK: - CardView
 open class CardView: BaseView {
     
-    open var customView: UIView!
+    private var authorLabel: UILabel! = {
+        var label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    open var overlay: UIView! = {
+        var view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 30
+        return view
+    }()
+    open var imageView: UIImageView! = {
+        var imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius  = 30
+        imageView.backgroundColor = .clear
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    open var blurImageView: UIImageView! = {
+        var imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius  = 30
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .clear
+        return imageView
+    }()
+    open var authorName: String?
+    open var rateAppView: UIView!
+    open var limitView: UIView!
     open var color: UIColor!
     open var image: UIImage?
-    //help
     open var corners: Corners!
     open var cornersSize: CornersSizes!
     
     private var prevRect: CGRect?
     
-    @objc public init(frame: CGRect, color: UIColor, customView: UIView, image: UIImage? = nil, corners: Corners, cornersSize: CornersSizes) {
+    @objc public init(frame: CGRect, color: UIColor = .clear, image: UIImage? = nil, corners: Corners, cornersSize: CornersSizes, authorName: String?, rateAppView: UIView, limitView: UIView) {
         self.color = color
-        self.customView = customView
         self.image = image
         self.corners = corners
         self.cornersSize = cornersSize
+        self.rateAppView = rateAppView
+        self.limitView = limitView
+        self.authorName = authorName
         super.init(frame: frame)
         setUp()
     }
@@ -96,9 +129,7 @@ open class CardView: BaseView {
     }
     
     open override func draw(_ rect: CGRect) {
-        
         let path = drawView(by: corners, cornersSizes: cornersSize)
-        
         // fill the path
         if let image = image {
             let fill = UIColor(patternImage: image.resizeImage(CGSize(width: bounds.width, height: bounds.height)))
@@ -107,11 +138,34 @@ open class CardView: BaseView {
             color.set()
         }
         path.fill()
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
     }
     
     private func setUp() {
-        addSubview(customView)
-        customView.pin(to: self, leftOffset: 10, rightOffset: -50, topOffset: 10, bottomOffset: -10)
+        addSubview(blurImageView)
+        addSubview(imageView)
+        addSubview(overlay)
+        addSubview(rateAppView)
+        addSubview(limitView)
+        addSubview(authorLabel)
+        blurImageView.pin(to: self)
+        imageView.pin(to: self)
+        overlay.pin(to: self)
+        limitView.pin(to: self)
+        rateAppView.pin(to: self)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = blurImageView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurImageView.addSubview(blurEffectView)
+        let authorLabelConstraints = [
+            authorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+            authorLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            authorLabel.heightAnchor.constraint(equalToConstant: 30)
+        ]
+        NSLayoutConstraint.activate(authorLabelConstraints)
+        authorLabel.text = authorName
         backgroundColor = .clear
     }
     

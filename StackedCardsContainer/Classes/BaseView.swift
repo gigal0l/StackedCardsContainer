@@ -64,6 +64,10 @@ open class BaseView: UIView {
             self.panGestureRecognizer = panGestureRecognizer
             panGestureRecognizer.delegate = self
             addGestureRecognizer(panGestureRecognizer)
+        } else {
+            if let panGestureRecognizer = panGestureRecognizer {
+                removeGestureRecognizer(panGestureRecognizer)
+            }
         }
         
         // Tap Gesture Recognizer
@@ -97,7 +101,7 @@ open class BaseView: UIView {
         case .ended:
             let velocity = panGestureRecognizer?.velocity(in: self)
             let xVelocity = velocity?.x
-            if xVelocity ?? 0 < -1300 {
+            if xVelocity ?? 0 < -1300 || xVelocity ?? 0 > 1300 {
                 let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
                 translationAnimation?.duration = Constants.finalizeSwipeActionAnimationDuration
                 translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))

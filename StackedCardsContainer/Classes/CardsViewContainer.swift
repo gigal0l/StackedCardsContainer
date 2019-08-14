@@ -10,8 +10,9 @@ import UIKit
 
 @objc public protocol CardViewDelegate {
     @objc func didSelect(card: CardView, atIndex index: Int)
-    @objc func didBeginSwipe(card: CardView, index: Int)
+    @objc optional func didBeginSwipe(card: CardView, index: Int)
     @objc func didEndSwipe(card: CardView, index: Int)
+    @objc func change(state: Bool, cardView: CardView)
 }
 
 @objc public protocol CardViewDataSource {
@@ -30,9 +31,9 @@ open class CardsViewContainer: UIView {
     
     open weak var delegate: CardViewDelegate?
 
-    @objc open var offset: CGPoint = CGPoint(x: 20, y: 30)
+    @objc open var offset: CGPoint = CGPoint(x: 0, y: 0)
     @objc public let horizontalInset: CGFloat = 12.0
-    @objc public let verticalInset: CGFloat = 12.0
+    @objc public let verticalInset: CGFloat = 15.0
     @objc public let numberOfVisibleCards: Int = 3
     
     @objc open var cardsViews = [CardView]()
@@ -76,6 +77,16 @@ open class CardsViewContainer: UIView {
         }
     }
     
+    open func getCurrentIndex() -> Int {
+        guard let cardView = subviews.last as? CardView else { return 0 }
+        if let dataSource = dataSource,
+            let index = cardsViews.firstIndex(of: cardView) {
+            let newIndex = index % dataSource.numberOfCards()
+            return newIndex
+        }
+        return 0
+    }
+    
     private func addCardView(cardView: CardView, atIndex index: Int) {
         cardView.delegate = self
         cardsViews.append(cardView)
@@ -91,71 +102,62 @@ open class CardsViewContainer: UIView {
     }
     
     private func setFrame(forCardView cardView: CardView, atIndex index: Int, isEndSwipe: Bool = false) {
-        let newWidth = bounds.size.width * 0.8
-        let newHeight = bounds.size.height * 0.8
+        let newWidth = bounds.size.width
+        let newHeight = bounds.size.height
         let newBounds = CGRect(x: offset.x, y: offset.y, width: newWidth, height: newHeight)
         var cardViewFrame = newBounds
         let horizontalInset = CGFloat(index) * self.horizontalInset
         let verticalInset = CGFloat(index) * self.verticalInset
-        
-        cardViewFrame.size.width -= 2 * horizontalInset
-        cardViewFrame.size.height -= 2 * verticalInset
-        cardViewFrame.origin.x += 2 * horizontalInset
+
         cardViewFrame.origin.y -= verticalInset
         
         cardView.frame = cardViewFrame
         cardView.setShadow()
 
-        if visibleCardsViews.count >= 1 {
-            visibleCardsViews.reversed().first?.setupGestureRecognizers(enablePan: dataSource?.numberOfCards() ?? 0 > 1)
+        if visibleCardsViews.count >= 0 {
+            visibleCardsViews.reversed().first?.setupGestureRecognizers(enablePan: dataSource?.numberOfCards() ?? 0 > 0)
         }
     }
 }
 
 extension CardsViewContainer: BaseViewDelegate {
-    public func didTap(view: BaseView) {
+    public func showCurrect(view: BaseView) {
         if let cardView = view as? CardView,
             let dataSource = dataSource,
             let index = cardsViews.firstIndex(of: cardView) {
             let newIndex = index % dataSource.numberOfCards()
-            delegate?.didSelect(card: cardView, atIndex: newIndex)
         }
     }
     
+    public func didTap(view: BaseView) {
+        guard let dataSource = dataSource, let cardView = view as? CardView else { return }
+        guard let index = cardsViews.firstIndex(of: cardView) else { return }
+        let currentIndex = index % dataSource.numberOfCards()
+        delegate?.didSelect(card: cardView, atIndex: currentIndex)
+    }
+    
     public func didBeginSwipe(onView view: BaseView) {
-        if let cardView = view as? CardView,
-            let dataSource = dataSource,
-            let index = cardsViews.firstIndex(of: cardView) {
-            let newIndex = index % dataSource.numberOfCards()
-            delegate?.didBeginSwipe(card: cardView, index: newIndex)
-        }
     }
     
     public func didEndSwipe(onView view: BaseView) {
         guard let dataSource = dataSource, let cardView = view as? CardView else { return }
-        if let index = cardsViews.firstIndex(of: cardView) {
-            let newIndex = index % dataSource.numberOfCards()
-            delegate?.didEndSwipe(card: cardView, index: newIndex)
-        }
+        guard let index = cardsViews.firstIndex(of: cardView) else { return }
+        let currentIndex = index % dataSource.numberOfCards()
+        delegate?.didEndSwipe(card: cardView, index: currentIndex)
         
         // Remove swiped card
         view.removeFromSuperview()
         
         let reversedCards = visibleCardsViews.reversed()
 
-        //for loop
-        if remainingCards == 0 {
-            remainingCards = dataSource.numberOfCards()
+        if remainingCards > 0 {
+            // Calculate new card's index
+            newIndex = dataSource.numberOfCards() - remainingCards
+            // Add new card as Subview
+            addCardView(cardView: dataSource.card(forItemAtIndex: newIndex), atIndex: reversedCards.count <= 1 ? 1 : 2)
+            // Update all existing card's frames based on new indexes, animate frame change
+            // to reveal new card from underneath the stack of existing cards.
         }
-        
-        // Calculate new card's index
-        newIndex = dataSource.numberOfCards() - remainingCards
-
-        // Add new card as Subview
-        addCardView(cardView: remainingCards == 0 ? cardView : dataSource.card(forItemAtIndex: newIndex), atIndex: reversedCards.count <= 1 ? 1 : 2)
-
-        // Update all existing card's frames based on new indexes, animate frame change
-        // to reveal new card from underneath the stack of existing cards.
         UIView.animate(withDuration: 0.2, animations: {
             for (cardIndex, cardView) in reversedCards.enumerated() {
                 view.center = self.center
@@ -164,5 +166,11 @@ extension CardsViewContainer: BaseViewDelegate {
         }, completion: { (completed) in
             self.layoutIfNeeded()
         })
+        
+        if reversedCards.count != 0 {
+            if let currentCardView = reversedCards.first {
+                delegate?.change(state: !currentCardView.limitView.isHidden, cardView: currentCardView)
+            }
+        }
     }
 }

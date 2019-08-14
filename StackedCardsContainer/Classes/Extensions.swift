@@ -21,10 +21,10 @@ extension UIView {
     }
     
     func setShadow() {
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOffset = CGSize(width: 5, height: 9)
-//        layer.shadowOpacity = 0.2
-//        layer.shadowRadius = 6
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 5, height: 9)
+        layer.shadowOpacity = 0.2
+        layer.shadowRadius = 6
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }
@@ -71,12 +71,11 @@ extension UIImage {
     final func resizeImage(_ size: CGSize) -> UIImage {
         var scaledImageRect = CGRect.zero
         
-        let aspectWidth:CGFloat = size.width / self.size.width
-        let aspectHeight:CGFloat = size.height / self.size.height
+        let aspectWidth: CGFloat = size.width / self.size.width
+        let aspectHeight: CGFloat = size.height / self.size.height
         
         //max - scaleAspectFill | min - scaleAspectFit
-        let aspectRatio:CGFloat = max(aspectWidth, aspectHeight)
-        
+        let aspectRatio: CGFloat = max(aspectWidth, aspectHeight)
         scaledImageRect.size.width = self.size.width * aspectRatio
         scaledImageRect.size.height = self.size.height * aspectRatio
         scaledImageRect.origin.x = (size.width - scaledImageRect.size.width) / 2.0
