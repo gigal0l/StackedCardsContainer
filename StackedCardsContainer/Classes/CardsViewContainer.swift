@@ -12,7 +12,7 @@ import UIKit
     @objc func didSelect(card: CardView, atIndex index: Int)
     @objc optional func didBeginSwipe(card: CardView, index: Int)
     @objc func didEndSwipe(card: CardView, index: Int)
-    @objc func change(state: Bool, cardView: CardView)
+    @objc func change(state: Bool, cardView: CardView, index: Int)
 }
 
 @objc public protocol CardViewDataSource {
@@ -169,7 +169,7 @@ extension CardsViewContainer: BaseViewDelegate {
         
         if reversedCards.count != 0 {
             if let currentCardView = reversedCards.first {
-                delegate?.change(state: !currentCardView.limitView.isHidden, cardView: currentCardView)
+                delegate?.change(state: !currentCardView.limitView.isHidden, cardView: currentCardView, index: currentIndex + 1)
             }
         }
     }
